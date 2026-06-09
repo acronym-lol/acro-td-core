@@ -56,8 +56,8 @@ class AcroComponentCreator(CallbacksExt, AcroVersionExt):
         AcroVersionExt.__init__(self, ownerComp)
 
         # Register hotkeys
-        if hasattr(op, 'HOTKEYMANAGER') and op.HOTKEYMANAGER:
-            op.HOTKEYMANAGER.Register('ctrl+alt+shift+n', self.OpenCreateDialog, description='Open Component Creator')
+        if hasattr(op, 'AHM') and op.AHM:
+            op.AHM.Register('ctrl+alt+shift+n', self.OpenCreateDialog, description='Open Component Creator')
 
     # do something in the future
     def _future(self, attrib, args=(), group_name=None, delayMilliSeconds=0, delayFrames=0):

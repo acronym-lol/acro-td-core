@@ -71,7 +71,7 @@ Key operator paths in this project:
 | `/AcroCore` | Main project component (file creation, environment) | `op.AcroCore` |
 | `/AcroMCP` | HTTP API bridge for MCP server | — |
 | `/AcroComponentCreator` | Component scaffolding | `op.COMPCREATOR` |
-| `/AcroHotkeyManager` | Central hotkey management | `op.HOTKEYMANAGER` |
+| `/AcroHotkeyManager` | Central hotkey management | `op.AHM` |
 | `/AcroVersionManager` | Version/tox manager | — |
 | `/AcroThemeManager` | Theme manager | `op.THEMEMANAGER` |
 | `/AcroWidgets` | Widget management system | `op.WIDGETS` |
@@ -131,32 +131,32 @@ op.COMPCREATOR.CreateComponent(settings)
 
 ## AcroHotkeyManager — Central Hotkey Management
 
-The **AcroHotkeyManager** (`/AcroHotkeyManager`, global shortcut `op.HOTKEYMANAGER`) provides centralized keyboard shortcut management. Components register hotkey combinations via a simple API, and the manager dispatches callbacks when keys are pressed.
+The **AcroHotkeyManager** (`/AcroHotkeyManager`, global shortcut `op.AHM`) provides centralized keyboard shortcut management. Components register hotkey combinations via a simple API, and the manager dispatches callbacks when keys are pressed.
 
 ### AcroHotkeyManager API
 
 ```python
 # Register a hotkey
-op.HOTKEYMANAGER.Register('ctrl+alt+shift+n', callback,
+op.AHM.Register('ctrl+alt+shift+n', callback,
                           description='Open Component Creator')
 
 # Unregister a hotkey
-op.HOTKEYMANAGER.Unregister('ctrl+alt+shift+n')
+op.AHM.Unregister('ctrl+alt+shift+n')
 
 # Unregister all hotkeys owned by a component
-op.HOTKEYMANAGER.UnregisterOwner('/AcroComponentCreator')
+op.AHM.UnregisterOwner('/AcroComponentCreator')
 
 # Get all registered bindings
-op.HOTKEYMANAGER.Bindings  # Returns dict
+op.AHM.Bindings  # Returns dict
 
 # Get current modifier state
-op.HOTKEYMANAGER.Modifiers  # {'ctrl': bool, 'alt': bool, 'shift': bool}
+op.AHM.Modifiers  # {'ctrl': bool, 'alt': bool, 'shift': bool}
 
 # Enable/disable a hotkey without removing it
-op.HOTKEYMANAGER.SetEnabled('ctrl+alt+shift+n', False)
+op.AHM.SetEnabled('ctrl+alt+shift+n', False)
 
 # Print all hotkeys to textport
-op.HOTKEYMANAGER.PrintHelp()
+op.AHM.PrintHelp()
 ```
 
 ### Hotkey String Format
@@ -177,7 +177,7 @@ class MyComponent(CallbacksExt):
         self._registerHotkeys()
 
     def _registerHotkeys(self):
-        hk = op.HOTKEYMANAGER
+        hk = op.AHM
         if hk:
             hk.Register('ctrl+alt+m', self.MyMethod,
                         description='Do something')

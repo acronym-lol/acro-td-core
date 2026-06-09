@@ -1,6 +1,6 @@
 active: true
 mode: Python vEnv
-envName: td-dp
+envName: acro-core
 installPath: .
 pythonVersion: 3.11.9
 autoSetup: true

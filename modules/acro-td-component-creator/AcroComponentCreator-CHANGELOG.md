@@ -1,5 +1,10 @@
 # Changelog
 
+All notable changes to this project will be documented in this file.
+
+## [1.0.19] - 2026-06-09
+- 
+
 ## [1.0.17] - 2026-04-30
 - Fixed always dirty on load
 
@@ -17,8 +22,6 @@
 - Added method and pulse to rebuild create dialog parameters
 
 ## [1.0.0] - 2026-03-19
-
-### Added
 - Initial release
 - Dialog-based component scaffolding
 - Support for extensions, callbacks, and network protocols

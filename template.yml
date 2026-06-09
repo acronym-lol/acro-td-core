@@ -1,7 +1,7 @@
 schema: 1
 name: acro-td-core
 description: "Acro TD Core — AcroCore framework with version management, MCP, hotkeys, widgets."
-toe: AcroTDCore.toe
+toe: AcroCore.toe
 
 # Additional folders beyond the universal bootstrap set.
 folders:

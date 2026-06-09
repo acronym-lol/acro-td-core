@@ -1,4 +1,4 @@
-import os
+﻿import os
 import traceback
 from pprint import pprint
 
@@ -53,18 +53,18 @@ class AcroCore(CallbacksExt, AcroVersionExt):
         # self.ownerComp.op('colors').Refresh()
 
         # Register hotkeys
-        if hasattr(op, 'HOTKEYMANAGER') and op.HOTKEYMANAGER:
-            op.HOTKEYMANAGER.Register('ctrl+alt+shift+u', self.ToggleUI, description='Toggle AcroCore UI')
-            op.HOTKEYMANAGER.Register('ctrl+alt+shift+t', self.ToggleTimeline, description='Toggle TD Timeline')
+        if hasattr(op, 'AHM') and op.AHM:
+            op.AHM.Register('ctrl+alt+shift+u', self.ToggleUI, description='Toggle AcroCore UI')
+            op.AHM.Register('ctrl+alt+shift+t', self.ToggleTimeline, description='Toggle TD Timeline')
 
             if op('/tdPyEnvManager'):
-                op.HOTKEYMANAGER.Register('ctrl+alt+shift+e', op('/tdPyEnvManager').OpenCli, description='Open tdPyEnvManager CLI')
+                op.AHM.Register('ctrl+alt+shift+e', op('/tdPyEnvManager').OpenCli, description='Open tdPyEnvManager CLI')
 
     def ToggleUI(self):
         # if ui is open, close it
         if 'acrocoreui' in [p.name for p in ui.panes]:
-            self.ownerComp.op('ui').par.w.mode = ParMode.CONSTANT
-            self.ownerComp.op('ui').par.h.mode = ParMode.CONSTANT
+            op.DASH.par.w.mode = ParMode.CONSTANT
+            op.DASH.par.h.mode = ParMode.CONSTANT
             p = ui.panes['acrocoreui']
             p.close()
             return
@@ -74,7 +74,7 @@ class AcroCore(CallbacksExt, AcroVersionExt):
             #p = ui.panes[1]
             p.ratio = .25
             p.name = 'acrocoreui'
-            p.owner = op('/AcroCore/ui')
+            p.owner = op.DASH
             p.changeType(PaneType.PANEL)
             
 
@@ -113,7 +113,7 @@ class AcroCore(CallbacksExt, AcroVersionExt):
 
     def CookUI(self):
         # cooks the ui to force the display to update
-        children = self.ownerComp.op('ui').findChildren(tags=['widgetcontainer'])
+        children = op.DASH.findChildren(tags=['widgetcontainer'])
         
         for c in children:
             c.cook(force=True)
@@ -130,21 +130,9 @@ class AcroCore(CallbacksExt, AcroVersionExt):
     def printStartupBanner(self):
         """Print ASCII art startup banner to textport"""
         version_str = self.VersionString
-
-        banner = r"""
- __/\\\\\\\\\\\\\\\___/\\\\\\\\\\\\_____/\\\\\\\\\\\\_____/\\\\\\\\\\\\\___
-  _\///////\\\/////___\/\\\////////\\\__\/\\\////////\\\__\/\\\/////////\\\_
-   _______\/\\\________\/\\\______\//\\\_\/\\\______\//\\\_\/\\\_______\/\\\_
-    _______\/\\\________\/\\\_______\/\\\_\/\\\_______\/\\\_\/\\\\\\\\\\\\\/__
-     _______\/\\\________\/\\\_______\/\\\_\/\\\_______\/\\\_\/\\\/////////____
-      _______\/\\\________\/\\\_______\/\\\_\/\\\_______\/\\\_\/\\\_____________
-       _______\/\\\________\/\\\_______/\\\__\/\\\_______/\\\__\/\\\_____________
-        _______\/\\\________\/\\\\\\\\\\\\/___\/\\\\\\\\\\\\/___\/\\\_____________
-         _______\///_________\////////////_____\////////////_____\///______________
-"""
-        print(banner)
-        print(f"  VTProDesign                                                  {version_str}")
-        print("================================================================================")
+        print("=" * 60)
+        print(f"AcroCore - {version_str}")
+        print("=" * 60)
 
     def checkProjectSaved(self):
         # check to see if the project has been saved once
@@ -159,13 +147,13 @@ class AcroCore(CallbacksExt, AcroVersionExt):
         """Create or update `alpacka.yml` alongside the .toe file.
 
         Launcher-owned fields at the top level (name, description, template,
-        kind, tags, created, schema) are setdefault'd — only written when
+        kind, tags, created, schema) are setdefault'd â€” only written when
         absent. AcroCore-owned fields live under `kind_data.touchdesigner.*`
         (toe_file + alternate_toe_files setdefault; td_version + td_major
         always refreshed). `last_opened` is a top-level shared "last writer
         wins" field, refreshed every save.
 
-        YAML I/O prefers `ruamel.yaml` (round-trip — preserves comments,
+        YAML I/O prefers `ruamel.yaml` (round-trip â€” preserves comments,
         ordering, quotes) and falls back to `PyYAML`. If neither is
         installed in TD's Python, this is a no-op with a textport notice;
         the next launcher save will rewrite the file from its in-memory
@@ -177,7 +165,7 @@ class AcroCore(CallbacksExt, AcroVersionExt):
         if backend is None:
             print(
                 "AcroCore: neither ruamel.yaml nor PyYAML is available in TD's "
-                "Python — skipping alpacka.yml update. Install one with "
+                "Python â€” skipping alpacka.yml update. Install one with "
                 "`pip install ruamel.yaml` from TD's bundled Python to "
                 "re-enable on-save metadata refresh."
             )
@@ -200,7 +188,7 @@ class AcroCore(CallbacksExt, AcroVersionExt):
 
         now = datetime.now().isoformat(timespec='seconds')
 
-        # Launcher-owned scalars — setdefault so user edits via the
+        # Launcher-owned scalars â€” setdefault so user edits via the
         # launcher's Edit Details survive every TD save.
         data.setdefault('schema', 1)
         data.setdefault('name', project.name)
@@ -210,7 +198,7 @@ class AcroCore(CallbacksExt, AcroVersionExt):
         data.setdefault('tags', [])
         data.setdefault('created', now)
 
-        # kind_data.touchdesigner — AcroCore-owned section. The launcher
+        # kind_data.touchdesigner â€” AcroCore-owned section. The launcher
         # accesses these via the toe_file / td_version compatibility
         # accessors that read/write through `kind_data["touchdesigner"]`.
         kind_data = data.get('kind_data')
@@ -228,11 +216,11 @@ class AcroCore(CallbacksExt, AcroVersionExt):
         # so a user-renamed `toe_file` in alpacka.yml survives TD saves.
         td.setdefault('toe_file', '{}.toe'.format(project.name))
         td.setdefault('alternate_toe_files', [])
-        # Always refresh — this is what TD knows authoritatively.
+        # Always refresh â€” this is what TD knows authoritatively.
         td['td_version'] = str(project.saveBuild)
         td['td_major'] = str(project.saveVersion)
 
-        # Shared field — last writer wins.
+        # Shared field â€” last writer wins.
         data['last_opened'] = now
 
         # Atomic write: write to a sibling temp and replace, mirroring how
@@ -260,7 +248,7 @@ class AcroCore(CallbacksExt, AcroVersionExt):
         """Return ('ruamel'|'pyyaml'|None, yaml_module).
 
         Cached on the instance so repeated saves don't re-import. Ruamel
-        is preferred — it round-trips comments and field ordering so
+        is preferred â€” it round-trips comments and field ordering so
         users' hand edits survive a save cycle. PyYAML is a working
         fallback; TD's Python on most installs has neither out of the
         box, so the caller surfaces a clear notice when both fail.
