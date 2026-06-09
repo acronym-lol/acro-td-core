@@ -1,0 +1,24 @@
+schema: 1
+name: acro-td-core
+description: ''
+template: ''
+kind: touchdesigner
+created: '2026-04-23T01:05:43+00:00'
+last_opened: '2026-05-21T19:07:24'
+tags: []
+launch_on_startup: false
+reopen_on_crash: false
+freeze_timeout_seconds: 30
+startup_grace_seconds: 60
+relaunch_delay_seconds: 5
+max_retries_enabled: false
+max_retries: 3
+variables: {}
+variable_meta: {}
+run_configs: []
+kind_data:
+  touchdesigner:
+    toe_file: AcroTDCore.toe
+    alternate_toe_files: []
+    td_version: '2025.32280'
+    td_major: '099'

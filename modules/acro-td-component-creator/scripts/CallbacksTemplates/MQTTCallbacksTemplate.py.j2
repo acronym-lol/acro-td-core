@@ -1,0 +1,65 @@
+# me - this DAT
+# 
+
+# Called when connection established
+# dat - the OP which is cooking
+def onConnect(dat):
+	ext.{{shortcut}}.onConnectMQTT(dat)
+    return
+
+# Called when connection failed
+# dat - the OP which is cooking
+# msg - reason for failure
+def onConnectFailure(dat, msg):
+    ext.{{shortcut}}.onConnectFailureMQTT(dat, msg)
+	return
+
+# Called when current connection lost
+# dat - the OP which is cooking
+# msg - reason for failure
+def onConnectionLost(dat, msg):
+    ext.{{shortcut}}.onConnectionLostMQTT(dat, msg)
+	return
+
+# Called when the subscribe call succeeds and is sent to the server
+# dat - the OP which is cooking
+def onSubscribe(dat):
+    ext.{{shortcut}}.onSubscribeMQTT(dat)
+	return
+
+# Called when subscription request fails.
+# dat - the OP which is cooking
+# msg - reason for failure
+def onSubscribeFailure(dat, msg):
+    ext.{{shortcut}}.onSubscribeFailureMQTT(dat, msg)
+	return
+
+# Called when the unsubscribe call succeeds and is sent to the server
+# dat - the OP which is cooking
+def onUnsubscribe(dat):
+    ext.{{shortcut}}.onUnsubscribeMQTT(dat)
+	return
+
+# Called when unsubscription request fails.
+# dat - the OP which is cooking
+# msg - reason for failure
+def onUnsubscribeFailure(dat, msg):
+    ext.{{shortcut}}.onUnsubscribeFailureMQTT(dat, msg)
+	return
+
+# Called when the publish call succeeds and is sent to the server
+# dat - the OP which is cooking
+def onPublish(dat, topic):
+    ext.{{shortcut}}.onPublishMQTT(dat, topic)
+	return
+
+# Called when new content received from server
+# dat - the OP which is cooking
+# topic - topic name of the incoming message
+# payload - payload of the incoming message
+# qos - qos flag for of the incoming message
+# retained - retained flag of the incoming message
+# dup - dup flag of the incoming message
+def onMessage(dat, topic, payload, qos, retained, dup):
+    ext.{{shortcut}}.onMessageMQTT(dat, topic, payload, qos, retained, dup)
+	return

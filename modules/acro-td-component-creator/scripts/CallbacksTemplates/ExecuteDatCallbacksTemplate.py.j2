@@ -1,0 +1,45 @@
+# me - this DAT
+# 
+# frame - the current frame
+# state - True if the timeline is paused
+# 
+# Make sure the corresponding toggle is enabled in the Execute DAT.
+
+def onStart():
+    return
+
+def onCreate():
+    comp = parent()
+    # if the callbacks dat doesn't exist, we copy the backup and dock it to the component
+    if comp.par.Callbackdat.eval() == None:
+        comp.par.Callbackdat = comp.name + '_callbacks'
+        name = comp.name + '_callbacks'
+        cb = comp.parent().copy(op('callbacksBackup'), name=name)
+        cb.dock = comp
+        cb.nodeX = comp.nodeX
+        cb.nodeY = comp.nodeY - 120
+        
+    return
+
+def onExit():
+    return
+
+def onFrameStart(frame):
+    return
+
+def onFrameEnd(frame):
+    return
+
+def onPlayStateChange(state):
+    return
+
+def onDeviceChange():
+    return
+
+def onProjectPreSave():
+    return
+
+def onProjectPostSave():
+    return
+
+    

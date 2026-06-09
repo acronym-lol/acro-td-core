@@ -1,0 +1,42 @@
+# CLAUDE.md - Project Instructions for AI Agents
+
+## Project Overview
+
+This is a TouchDesigner project built on the Acro TD Core template.
+
+## CRITICAL: Your TD Knowledge is Unreliable
+
+TouchDesigner has a unique Python API. Your pre-trained knowledge about TD parameters, operator types, and API methods is often incorrect. ALWAYS:
+- Call `td_guide` for reference documentation before starting any TD task
+- Verify parameter names with `td_op` or `td_get_par` before setting them
+- Use `td_children` to explore the scene before creating operators
+- Use `td_find_empty` to check positions before creating new nodes
+
+## MCP Tools
+
+This project has MCP tools for interacting with the running TouchDesigner scene. Key tools:
+
+| Tool | Purpose |
+|------|---------|
+| `td_health` | Check if TD is running |
+| `td_guide` | Get TD workflow guides (call before starting work) |
+| `td_execute` | Run Python code in TD |
+| `td_op` | Inspect operator parameters |
+| `td_children` | List child operators |
+| `td_get_par` / `td_set_par` | Read/write parameters |
+| `td_layout` | See existing node positions |
+| `td_find_empty` | Find clear spot for new nodes |
+| `td_errors` | Check for errors/warnings |
+
+## Key Paths
+
+- `/` - Scene root
+- `/AcroCore` - Main project component
+- `/components/` - User components
+
+## Conventions
+
+- UpperCamelCase for public extension methods
+- Extensions use sync-to-file (scripts/ directory)
+- Custom parameters: Capitalized first letter (e.g., `Fadetime`)
+- TD built-in params: lowercase (e.g., `tx`, `display`)

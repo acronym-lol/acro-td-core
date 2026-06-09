@@ -1,0 +1,12 @@
+- [Home](/)
+- [Getting Started](getting-started)
+- [Architecture](architecture)
+- [Configuration Reference](configuration)
+- **Modules**
+- [Version Manager](modules/acro-td-version-manager/docs/)
+- [Component Creator](modules/acro-td-component-creator/docs/)
+- [Hotkey Manager](modules/acro-td-hotkey-manager/docs/)
+- [Theme Manager](modules/acro-td-theme-manager/docs/)
+- [Macros](modules/acro-td-macros/docs/)
+- [Widgets](modules/acro-td-widgets/docs/)
+- [MCP](modules/acro-td-mcp/docs/)

@@ -1,0 +1,324 @@
+from json import loads, dumps
+import traceback
+
+from CallbacksExt import CallbacksExt
+{% if include_versionext %}
+from AcroVersionExt import AcroVersionExt
+{% elif include_toxext %}
+from AcroToxExt import AcroToxExt
+{% endif %}
+from TDStoreTools import StorageManager
+TDF = op.TDModules.mod.TDFunctions
+
+{% if include_versionext %}
+class {{ class_name }}(CallbacksExt, AcroVersionExt):
+{% elif include_toxext %}
+class {{ class_name }}(CallbacksExt, AcroToxExt):
+{% else %}
+class {{ class_name }}(CallbacksExt):
+{% endif %}
+    """ {{ docstring }} """
+
+    def __init__(self, ownerComp):
+        # the component to which this extension is attached
+        self.ownerComp = ownerComp
+
+        # init callbacks
+        self.callbackDat = self.ownerComp.par.Callbackdat.eval()
+        try:
+            CallbacksExt.__init__(self, ownerComp)
+        except:
+            self.ownerComp.addScriptError(traceback.format_exc() + \
+                    "Error in CallbacksExt __init__. See textport.")
+            print()
+            print("Error initializing callbacks - " + self.ownerComp.path)
+            print(traceback.format_exc())
+        # run onInit callback
+        try:
+            self.DoCallback('onInit', {'ownerComp':self.ownerComp})
+        except:
+            self.ownerComp.addScriptError(traceback.format_exc() + \
+                    "Error in custom onInit callback. See textport.")
+            print(traceback.format_exc())
+{% if include_versionext %}
+
+        # Initialize version tracking mixin (creates Version + Component param pages)
+        AcroVersionExt.__init__(self, ownerComp)
+{% elif include_toxext %}
+
+        # Initialize tox management mixin (creates Component param page)
+        AcroToxExt.__init__(self, ownerComp)
+{% endif %}
+
+{% if include_examples %}
+        # properties
+        # TDF.createProperty(self, 'MyProperty', value=0, dependable=True,
+        # 				   readOnly=False)
+{% endif %}
+
+        # the component to which data is stored
+        self.dataComp = ownerComp.op('data')
+
+        # stored items (persistent across saves and re-initialization):
+        storedItems = [
+            # Only 'name' is required...
+            {'name': 'Data', 'default': None, 'readOnly': False,
+                                     'property': True, 'dependable': True},
+        ]
+        self.stored = StorageManager(self, self.dataComp, storedItems)
+{% if include_mqtt%}
+        # reference to mqtt dat
+        self.mqttDat = ownerComp.op('mqtt')
+{% endif %}{% if include_oscin %}
+        # reference to osc in dat
+        self.oscInDat = ownerComp.op('oscin')
+{% endif %}{% if include_oscout %}
+        # reference to osc out dat
+        self.oscOutDat = ownerComp.op('oscout')
+{% endif %}{% if include_tcpclient %}
+        # reference to tcp client dat
+        self.tcpClientDat = ownerComp.op('tcpclient')
+{% endif %}{% if include_tcpserver %}
+        # reference to tcp server dat
+        self.tcpServerDat = ownerComp.op('tcpserver')
+{% endif %}{% if include_udpin %}
+        # reference to udp in dat
+        self.udpInDat = ownerComp.op('udpin')
+{% endif %}{% if include_udpout %}
+        # reference to udp out dat
+        self.udpOutDat = ownerComp.op('udpout')
+{% endif %}{% if include_webclient %}
+        # reference to webclient dat
+        self.webclientDat = ownerComp.op('webclient')
+{% endif %}{% if include_webserver %}
+        # reference to webserver dat
+        self.webserverDat = ownerComp.op('webserver')
+{% endif %}{% if include_websocket %}
+        # reference to websocket dat
+        self.websocketDat = ownerComp.op('websocket')
+{% endif %}
+{% if include_examples %}
+    # example promoted method with callback that calls done() after 1 second
+    def Start(self):
+        print('foo')
+        run(self.done, 'bar', data='foobar', delayMilliSeconds=1000)
+        self.DoCallback('onStart', {'data': 'start'})
+
+    # example private method with callback
+    def done(self, some_text, data=''):
+        print(some_text)
+        self.DoCallback('onDone', {'data': data})
+{% endif %}{% if include_mqtt %}
+    # Called when connection established
+    def onConnectMQTT(self, dat):
+        return
+
+    # Called when connection failed
+    def onConnectFailureMQTT(self, dat, msg):
+        return
+
+    # Called when current connection lost
+    def onConnectionLostMQTT(self, dat, msg):
+        return
+
+    # Called when the subscribe call succeeds and is sent to the server
+    def onSubscribeMQTT(self, dat):
+        return
+
+    # Called when subscription request fails.
+    def onSubscribeFailureMQTT(self, dat, msg):
+        return
+
+    # Called when the unsubscribe call succeeds and is sent to the server
+    def onUnsubscribeMQTT(self, dat):
+        return
+
+    # Called when unsubscription request fails.
+    def onUnsubscribeFailureMQTT(self, dat, msg):
+        return
+
+    # Called when the publish call succeeds and is sent to the server
+    def onPublishMQTT(self, dat, topic):
+        return
+
+    # Called when new content received from server
+    def onMessageMQTT(self, dat, topic, payload, qos, retained, dup):
+        return
+
+    # publish an mqtt message
+    def publishMQTT(self, topic, payload, qos=0, retained=False):
+        self.mqttDat.publish(topic, payload, qos, retained)
+        pass
+
+    # subscribe to an mqtt topic
+    def subscribeMQTT(self, topic, qos=0):
+        self.mqttDat.subscribe(topic, qos)
+        pass
+    
+    # unsubscribe from an mqtt topic
+    def unsubscribeMQTT(self, topic):
+        self.mqttDat.unsubscribe(topic)
+        pass
+{% endif %}{% if include_oscin %}
+    # Called when the OSC DAT receives
+    def onReceiveOSC(self, dat, rowIndex, message, byteData, timeStamp, address, args, peer):
+        return
+{% endif %}{% if include_oscout %}
+    # send an osc message
+    # sendOSC(address, valueList,... asBundle=False, useNonStandardTypes=True, use64BitPrecision=False)
+    def sendOSCMsg(self, address, valueList, asBundle=False, useNonStandardTypes=True, use64BitPrecision=False):
+        self.oscOutDat.sendOSC(address, valueList, asBundle, useNonStandardTypes, use64BitPrecision)
+        pass
+{% endif %}{% if include_tcpclient %}
+    # send a tcp client message
+    def sendTCPMsg(self, msg):
+        msg = dumps(msg).encode('utf-8')
+        self.tcpClientDat.send(msg)
+        pass
+
+    # on tcp client connection
+    def onConnectTCP(self, dat, peer):
+        pass
+
+    # receive a tcp client message
+    def onReceiveTCPMsg(self, dat, rowIndex, message, byteData, peer):
+        msg = loads(message)
+        pass
+
+    def onCloseTCP(self, dat, peer):
+        pass
+{% endif %}{% if include_tcpserver %}
+    # send a tcp server message
+    def sendTCPServerMsg(self, msg):
+        msg = dumps(msg).encode('utf-8')
+        self.tcpServerDat.send(msg)
+        pass
+
+    # on tcp server connection
+    def onConnectTCPServer(self, dat, peer):
+        pass
+
+    # receive a tcp server message
+    def onReceiveTCPServerMsg(self, dat, rowIndex, message, byteData, peer):
+        msg = loads(message)
+        pass
+
+    def onCloseTCPServer(self, dat, peer):
+        pass
+{% endif %}{% if include_udpin %}
+    # receive a udp message
+    def onReceiveUDPMsg(self, dat, rowIndex, message, byteData, peer):
+        msg = loads(message)
+        pass
+{% endif %}{% if include_udpout %}
+    # send a udp message
+    def sendUDPMsg(self, msg):
+        msg = dumps(msg).encode('utf-8')
+        self.udpOutDat.send(msg, terminator='\r\n')
+{% endif %}{% if include_webclient %}
+    # on webclient connect
+    def onConnectWebclient(self, webClientDAT, id):
+        return
+    
+    # on webclient disconnect
+    def onDisconnectWebclient(self, webClientDAT, id):
+        return
+
+    # on webclient response
+    def onResponseWebclient(self, webClientDAT, statusCode, headerDict, data, id):
+        return
+
+    # webclient request
+    def webclientRequest(self, url, method,
+                         header=None, data=None, pars=None, authType=None, username=None, password=None, appKey=None, appSecret=None, oauth1Token=None, oauth1Secret=None, oauth2Token=None, uploadFile=None, timeout=60000):
+        self.webclientDat.request(url, method, header, data, pars, authType, username, password, appKey, appSecret, oauth1Token, oauth1Secret, oauth2Token, uploadFile, timeout)
+        return
+{% endif %}{% if include_websocket %}
+    # on websocket connect
+    def onConnectWebsocket(dat):
+        return
+
+    # on websocket disconnect
+    def onDisconnectWebsocket(dat):
+        return
+
+    # on receive text websocket
+    def onReceiveTextWebsocket(dat, rowIndex, message):
+        return
+
+    # on receive binary websocket
+    def onReceiveBinaryWebsocket(dat, contents):
+        return
+
+    # on receive ping websocket
+    def onReceivePingWebsocket(dat, contents):
+        dat.sendPong(contents) # send a reply with same message
+        return
+
+    # on receive pong websocket
+    def onReceivePongWebsocket(dat, contents):
+        return
+
+    # on receive close websocket
+    def onMonitorMessageWebsocket(dat, message):
+        return
+
+    def sendTextWebsocket(self, message):
+        self.websocketDat.sendText(message)
+        return
+
+    def sendPongWebsocket(self, contents):
+        self.websocketDat.sendPong(contents)
+        return
+
+    def sendPingWebsocket(self, contents):
+        self.websocketDat.sendPing(contents)
+        return
+
+    def sendBinaryWebsocket(self, contents):
+        self.websocketDat.sendBinary(contents)
+        return
+{% endif %}
+{% if include_webserver %}
+    # return the response dictionary
+    def onHTTPRequestWebServer(self, webServerDAT, request, response):
+        response['statusCode'] = 200 # OK
+        response['statusReason'] = 'OK'
+        response['data'] = '<b>TouchDesigner: </b>' + webServerDAT.name
+        return response
+
+    def onWebSocketOpenWebServer(self, webServerDAT, client, uri):
+        return
+
+    def onWebSocketCloseWebServer(self, webServerDAT, client):
+        return
+
+    def onWebSocketReceiveTextWebServer(self, webServerDAT, client, data):
+        webServerDAT.webSocketSendText(client, data)
+        return
+
+    def onWebSocketReceiveBinaryWebServer(self, webServerDAT, client, data):
+        webServerDAT.webSocketSendBinary(client, data)
+        return
+
+    def onWebSocketReceivePingWebServer(self, webServerDAT, client, data):
+        webServerDAT.webSocketSendPong(client, data=data);
+        return
+
+    def onWebSocketReceivePongWebServer(self, webServerDAT, client, data):
+        return
+
+    def onServerStartWebServer(self, webServerDAT):
+        return
+
+    def onServerStopWebServer(self, webServerDAT):
+        return
+{% endif %}
+    # pulse parameter to open extension
+    def pulse_Editextension(self):
+        self.ownerComp.op('{{class_name}}').par.edit.pulse()
+{% if include_examples %}
+    # pulse parameter to open extension
+    def pulse_Start(self):
+        self.Start()
+{% endif %}

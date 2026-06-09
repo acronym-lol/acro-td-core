@@ -1,0 +1,26 @@
+# me - this DAT
+#
+# dat - the DAT that received the data
+# rowIndex - the row number the data was placed into
+# message - an ascii representation of the data
+#           Unprintable characters and unicode characters will
+#           not be preserved. Use the 'byteData' parameter to get
+#           the raw bytes that were sent.
+# byteData - a byte array of the data received
+# peer - a Peer object describing the originating data
+#   peer.close()    #close the connection
+#   peer.owner  #the operator to whom the peer belongs
+#   peer.address    #network address associated with the peer
+#   peer.port       #network port associated with the peer
+
+def onConnect(dat, peer):
+    ext.{{shortcut}}.onConnectTCPServer(dat, peer)
+    return
+
+def onReceive(dat, rowIndex, message, byteData, peer):
+    ext.{{shortcut}}.onReceiveTCPServerMsg(dat, rowIndex, message, byteData, peer)
+    return
+
+def onClose(dat, peer):
+    ext.{{shortcut}}.onCloseTCPServer(dat, peer)
+    return

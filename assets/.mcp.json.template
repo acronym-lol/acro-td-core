@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "acro-td-mcp": {
+      "command": "node",
+      "args": [
+        "{{ACRO_TD_CORE}}/modules/acro-td-mcp/dist/index.js"
+      ]
+    }
+  }
+}

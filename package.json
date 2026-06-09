@@ -1,0 +1,20 @@
+{
+  "name": "acro-td-core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MCP server for Acro TD Core AcroMCP API",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild modules/acro-td-mcp/src/index.ts --bundle --platform=node --format=esm --outfile=modules/acro-td-mcp/dist/index.js --banner:js=\"import { createRequire } from 'module'; const require = createRequire(import.meta.url);\"",
+    "build:watch": "npm run build -- --watch"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "node-html-parser": "^7.0.2",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.27.3",
+    "typescript": "^5.7.0"
+  }
+}

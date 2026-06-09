@@ -1,0 +1,50 @@
+schema: 1
+name: acro-td-core
+description: "Acro TD Core — AcroCore framework with version management, MCP, hotkeys, widgets."
+toe: AcroTDCore.toe
+
+# Additional folders beyond the universal bootstrap set.
+folders:
+  - macros/main
+
+# Declarative file copies. Paths are relative to this template.yml.
+files:
+  # New-project gitignore — separate from AcroCore's own root .gitignore so
+  # new projects don't inherit AcroCore-internal patterns (Miniconda3, td-dp).
+  - src: assets/.gitignore.template
+    dst: .gitignore
+    overwrite: true
+
+  # Starter CLAUDE.md for AI agents working in the new project.
+  - src: assets/CLAUDE.md.template
+    dst: CLAUDE.md
+    substitute: true
+
+  # MCP server config — {{ACRO_TD_CORE}} is substituted to the
+  # absolute path of this repo so Claude Code can find the MCP bundle.
+  - src: assets/.mcp.json.template
+    dst: .mcp.json
+    substitute: true
+
+  # tdPyEnvManager context — drives the palette's autoSetup on first
+  # .toe open. envName is `.venv` to match Python convention; the
+  # activation prompt picks up the project folder name automatically
+  # via `python -m venv --prompt=.`.
+  - src: assets/TDPyEnvManagerContext.yaml.template
+    dst: TDPyEnvManagerContext.yaml
+
+  # Python requirements installed by tdPyEnvManager's autoSetup into
+  # the per-project venv on first .toe open.
+  - src: requirements.txt
+    dst: requirements.txt
+
+# Recursive directory copies. Refreshed on every create so projects pick
+# up updates to the shared skills set.
+trees:
+  - src: .claude/skills
+    dst: .claude/skills
+    overwrite: true
+
+substitutions:
+  ACRO_TD_CORE: "{{env:ACRO_TD_CORE}}"
+  PROJECT_NAME: "{{project:name}}"
