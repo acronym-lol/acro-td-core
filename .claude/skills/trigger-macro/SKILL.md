@@ -12,7 +12,7 @@ Trigger an existing macro in the Macros system.
 
 1. First, list all available macros using `td_execute`:
    ```python
-   op.MC.ListMacros()
+   op.AM.ListMacros()
    ```
 
 2. Display the available macros to the user with their paths and comments
@@ -25,12 +25,12 @@ Trigger an existing macro in the Macros system.
 
 4. Trigger the macro using `td_execute`:
    ```python
-   op.MC.TriggerMacro("macro/path", {"key": "value"})  # or just args as needed
+   op.AM.TriggerMacro("macro/path", {"key": "value"})  # or just args as needed
    ```
 
    If no args needed:
    ```python
-   op.MC.TriggerMacro("macro/path")
+   op.AM.TriggerMacro("macro/path")
    ```
 
 5. Confirm the macro was triggered
@@ -39,4 +39,4 @@ Trigger an existing macro in the Macros system.
 
 - Macro paths are hierarchical: "Parent/Child/GrandChild"
 - Arguments are passed to the `onTrigger` callback as the `args` parameter
-- You can also use `op.MC.Emit("signal_name", args)` to broadcast to all macros subscribed to that signal
+- You can also use `op.AM.Emit("signal_name", args)` to broadcast to all macros subscribed to that signal

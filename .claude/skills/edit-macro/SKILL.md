@@ -12,7 +12,7 @@ View and edit the callback code for a Macros macro.
 
 1. First, list all available macros using `td_execute`:
    ```python
-   op.MC.ListMacros()
+   op.AM.ListMacros()
    ```
 
 2. Display the available macros to the user
@@ -21,7 +21,7 @@ View and edit the callback code for a Macros macro.
 
 4. Fetch the current callback code using `td_execute`:
    ```python
-   op.MC.GetCallbackCode("macro/path")
+   op.AM.GetCallbackCode("macro/path")
    ```
 
 5. Display the current code to the user, formatted nicely
@@ -32,7 +32,7 @@ View and edit the callback code for a Macros macro.
 
 8. Save the updated code using `td_execute`:
    ```python
-   op.MC.SetCallbackCode("macro/path", '''
+   op.AM.SetCallbackCode("macro/path", '''
    def onInit(info, mc, macro):
        # initialization code
        return

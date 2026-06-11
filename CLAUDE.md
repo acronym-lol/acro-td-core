@@ -76,7 +76,7 @@ Key operator paths in this project:
 | `/AcroThemeManager` | Theme manager | `op.THEMEMANAGER` |
 | `/AcroWidgets` | Widget management system | `op.WIDGETS` |
 | `/components` | User components container | — |
-| `/components/AcroMacros` | Macro management | `op.MC` |
+| `/AcroMacros` | Macro management | `op.AM` |
 
 ## AcroComponentCreator — Component Scaffolding
 
@@ -190,7 +190,7 @@ class MyComponent(CallbacksExt):
 
 ## AcroMacros — Macro Management System
 
-The **AcroMacros** component (`/components/AcroMacros`, global shortcut `op.MC`) is a macro management framework. Macros are hierarchical units with callback code (`onInit`, `onTrigger`) stored on disk in `macros/main/`. They can be triggered directly or via signal subscriptions.
+The **AcroMacros** component (`/AcroMacros`, global shortcut `op.AM`) is a macro management framework. Macros are hierarchical units with callback code (`onInit`, `onTrigger`) stored on disk in `macros/main/`. They can be triggered directly or via signal subscriptions.
 
 ### AcroMacros API Quick Reference
 

@@ -11,7 +11,7 @@ Display all macros in the Macros system.
 
 1. Fetch all macros using `td_execute`:
    ```python
-   op.MC.ListMacros()
+   op.AM.ListMacros()
    ```
 
 2. Format the output as a clear list showing:
@@ -21,7 +21,7 @@ Display all macros in the Macros system.
 
 3. Optionally, fetch the signal routing table:
    ```python
-   op.MC.GetSignals()
+   op.AM.GetSignals()
    ```
 
 4. Display a summary showing:

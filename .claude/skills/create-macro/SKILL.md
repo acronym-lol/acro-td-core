@@ -20,17 +20,17 @@ Create a new macro in the Macros system.
 
 3. List existing macros to show context using `td_execute`:
    ```python
-   op.MC.ListMacros()
+   op.AM.ListMacros()
    ```
 
 4. Create the macro using `td_execute`:
    ```python
-   op.MC.CreateMacro("MacroName", "parent_path")  # "" for root
+   op.AM.CreateMacro("MacroName", "parent_path")  # "" for root
    ```
 
 5. Optionally, set initial callback code. Ask the user what the macro should do, then use:
    ```python
-   op.MC.SetCallbackCode("path/to/MacroName", '''
+   op.AM.SetCallbackCode("path/to/MacroName", '''
    def onInit(info, mc, macro):
        # mc.Subscribe(macro, 'signal_name')  # subscribe to signals
        return
