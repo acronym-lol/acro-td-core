@@ -1,6 +1,6 @@
 # Acro TD Core
 
-![Version](https://img.shields.io/badge/version-1.10.6-blue)
+![Version](https://img.shields.io/badge/version-1.10.12-blue)
 
 TouchDesigner project template with automated version management, external tox handling, and MCP integration for AI-assisted development.
 

@@ -97,7 +97,7 @@ class AcroCore(CallbacksExt, AcroVersionExt):
         emptypanel = mainmenu.op('emptypanel') if mainmenu else None
         if mainmenu and emptypanel and not mainmenu.op('playbar'):
             playbar = mainmenu.copy(self.ownerComp.op('playbar'), name='playbar')
-            playbar.par.clone.expr = "op.AcroCore.op('playbar')"
+            playbar.par.clone.expr = "op.AC.op('playbar')"
             # wire playbar output to emptypanel input
             playbar.inputCOMPConnectors[0].connect(emptypanel.outputCOMPConnectors[0])
 

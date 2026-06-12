@@ -30,7 +30,7 @@ CallbacksExt + AcroVersionExt
     ├── AcroVersionManager        <- Central version/tox manager (module: acro-td-version-manager)
     ├── AcroComponentCreator      <- Component scaffolding tool (module: acro-td-component-creator)
     ├── AcroHotkeyManager         <- Central hotkey manager (module: acro-td-hotkey-manager)
-    ├── AcroMacros             <- Macro framework (module: acro-td-macros)
+    ├── AcroMacros                <- Macro framework (module: acro-td-macros)
     ├── AcroMCP                   <- MCP HTTP bridge (module: acro-td-mcp)
     ├── AcroThemeManager          <- Theme system (module: acro-td-theme-manager)
     └── AcroWidgets               <- Widget management (module: acro-td-widgets)
@@ -49,7 +49,7 @@ Claude Code  →  MCP Server (modules/acro-td-mcp/dist/index.js)  →  AcroMCP H
 ```
 
 - **MCP server** (`modules/acro-td-mcp/`): Node.js process with registered MCP tools.
-- **AcroMCP** (`/AcroCore/AcroMCP`): TD webserver component (auto-assigned port 54200-54209).
+- **AcroMCP** (`/AcroMCP`): TD webserver component (auto-assigned port 54200-54209).
 - External projects get a `.mcp.json` pointing to this repo's MCP server (created by `AcroCore.onSave()` via `template.yml`).
 
 ### MCP Server Development
@@ -68,25 +68,25 @@ Key operator paths in this project:
 | Path | Description | Global Shortcut |
 |------|-------------|-----------------|
 | `/` | Scene root | — |
-| `/AcroCore` | Main project component (file creation, environment) | `op.AcroCore` |
+| `/AcroCore` | Main project component (file creation, environment) | `op.AC` |
 | `/AcroMCP` | HTTP API bridge for MCP server | — |
-| `/AcroComponentCreator` | Component scaffolding | `op.COMPCREATOR` |
+| `/AcroComponentCreator` | Component scaffolding | `op.ACC` |
 | `/AcroHotkeyManager` | Central hotkey management | `op.AHM` |
 | `/AcroVersionManager` | Version/tox manager | — |
-| `/AcroThemeManager` | Theme manager | `op.THEMEMANAGER` |
-| `/AcroWidgets` | Widget management system | `op.WIDGETS` |
+| `/AcroThemeManager` | Theme manager | `op.ATM` |
+| `/AcroWidgets` | Widget management system | `op.AW` |
 | `/components` | User components container | — |
 | `/AcroMacros` | Macro management | `op.AM` |
 
 ## AcroComponentCreator — Component Scaffolding
 
-The **AcroComponentCreator** (`/AcroComponentCreator`, global shortcut `op.COMPCREATOR`) provides programmatic component creation with built-in support for extensions, callbacks, and network protocols. Open the creation dialog with **Ctrl+Alt+Shift+N** (when in a network editor pane).
+The **AcroComponentCreator** (`/AcroComponentCreator`, global shortcut `op.ACC`) provides programmatic component creation with built-in support for extensions, callbacks, and network protocols. Open the creation dialog with **Ctrl+Alt+Shift+N** (when in a network editor pane).
 
 ### AcroComponentCreator API
 
 ```python
 # Get default settings dict
-settings = op.COMPCREATOR.DefaultSettings()
+settings = op.ACC.DefaultSettings()
 
 # Modify settings
 settings['Classname'] = 'MyComponent'    # REQUIRED - UpperCamelCase
@@ -98,7 +98,7 @@ settings['Posx'] = 400                   # Node position
 settings['Posy'] = 0
 
 # Create the component
-op.COMPCREATOR.CreateComponent(settings)
+op.ACC.CreateComponent(settings)
 ```
 
 ### DefaultSettings() Keys
@@ -185,8 +185,8 @@ class MyComponent(CallbacksExt):
 
 ### Conflict Handling
 
-- First-registered wins — duplicate registrations are rejected with a warning
-- Use `force=True` to override an existing binding
+- Last-registered wins by default (`force=True`) — re-registering a hotkey replaces the existing binding. This is required so components can re-register cleanly when their synced extension reloads.
+- Pass `force=False` to defer to an existing binding — the registration is rejected with a warning and `Register()` returns `False`.
 
 ## AcroMacros — Macro Management System
 
@@ -223,7 +223,7 @@ def onTrigger(info, mc, macro, comps, args):
 
 ## AcroWidgets — Widget System
 
-**AcroWidgets** (`/AcroWidgets`, global shortcut `op.WIDGETS`) is a widget management system for building custom user interfaces in TouchDesigner. It provides widget discovery, component inspection, and clipboard operations.
+**AcroWidgets** (`/AcroWidgets`, global shortcut `op.AW`) is a widget management system for building custom user interfaces in TouchDesigner. It provides widget discovery, component inspection, and clipboard operations.
 
 ### AcroWidgetContainer — CRITICAL COMPONENT
 
@@ -239,7 +239,7 @@ def onTrigger(info, mc, macro, comps, args):
 
 The AcroWidgetContainer extension (`modules/acro-td-widgets/scripts/AcroWidgetContainer.py`) requires extreme caution when modifying:
 
-1. **Global references are intentional**: The `op.WIDGETS` reference must point to the central AcroWidgets registry regardless of where the widget container lives in the scene. Do NOT replace with relative paths. PopMenu uses TouchDesigner's built-in `op.TDResources.PopMenu`.
+1. **Global references are intentional**: The `op.AW` reference must point to the central AcroWidgets registry regardless of where the widget container lives in the scene. Do NOT replace with relative paths. PopMenu uses TouchDesigner's built-in `op.TDResources.PopMenu`.
 
 2. **Small changes only**: Any modifications should be isolated to single features so they can be tested individually before proceeding.
 
@@ -255,13 +255,13 @@ Widgets are discovered via tags:
 
 ```python
 # Get all widget folders and their contents
-op.WIDGETS.UpdateWidgets()
-print(op.WIDGETS.Widgets)  # Dict of folders → widgets
+op.AW.UpdateWidgets()
+print(op.AW.Widgets)  # Dict of folders → widgets
 ```
 
 ## AcroThemeManager — CSS Theme Application
 
-**AcroThemeManager** (`/AcroThemeManager`, global shortcut `op.THEMEMANAGER`) applies CSS-based theme files to TouchDesigner's `ui.colors`, TUIK2 component parameters, and `op.*` shortcut parameters.
+**AcroThemeManager** (`/AcroThemeManager`, global shortcut `op.ATM`) applies CSS-based theme files to TouchDesigner's `ui.colors`, TUIK2 component parameters, and `op.*` shortcut parameters.
 
 Theme files live in `modules/acro-td-theme-manager/themes/`. See that module's `CLAUDE.md` for the theme-file format, the base template, the protected-color rules, and tips for creating new themes.
 
@@ -343,22 +343,31 @@ The project uses **Docsify** for documentation, hosted via GitHub Pages from the
 
 ### Documentation Structure
 
+Project-level docs live in `docs/`; each module ships its own Docsify mini-site in `modules/<module>/docs/`.
+
 ```
-docs/
-├── .nojekyll              <- Disables Jekyll on GitHub Pages
-├── index.html             <- Docsify configuration
-├── _sidebar.md            <- Navigation sidebar
-├── README.md              <- Home page
-├── getting-started.md     <- Setup guide
-├── architecture.md        <- System design overview
-├── tdmcp.md               <- AcroMCP API reference
-├── tox-management.md      <- AcroToxExt reference
-├── version-tracking.md    <- AcroVersionExt reference
-├── version-manager.md     <- AcroVersionManager reference
-├── version-checking.md    <- Remote checking, tokens, git fetch
-├── dev-workflow.md        <- Dev mode, version bumps, changelogs
-├── component-creator.md   <- Component creation tool
-└── configuration.md       <- All parameters, tags, file formats
+docs/                          <- Main Docsify site (project-level)
+├── .nojekyll                  <- Disables Jekyll on GitHub Pages
+├── index.html                 <- Docsify configuration
+├── _sidebar.md                <- Navigation sidebar (links to module docs)
+├── README.md                  <- Home page
+├── getting-started.md         <- Setup guide
+├── architecture.md            <- System design overview
+└── configuration.md           <- All parameters, tags, file formats
+
+modules/<module>/docs/         <- Per-module Docsify mini-sites
+├── index.html / _sidebar.md   <- Standalone Docsify config per module
+├── README.md                  <- Module overview
+└── *.md                       <- Module reference pages, e.g.:
+    acro-td-version-manager/docs/: tox-management.md, version-tracking.md,
+        version-manager.md, version-checking.md, dev-workflow.md
+    acro-td-theme-manager/docs/: theme-format.md, creating-themes.md,
+        base-template.md, protected-colors.md, themes-library.md, theme-manager.md
+    acro-td-component-creator/docs/: api.md
+    acro-td-hotkey-manager/docs/: api.md
+    acro-td-macros/docs/: api.md
+    acro-td-widgets/docs/: widgets.md
+    acro-td-mcp/docs/: mcp-tools.md, http-api.md
 ```
 
 ### Documentation Maintenance Rules
@@ -369,7 +378,7 @@ When modifying code in this project, follow these rules to keep documentation in
 
 2. **New public method, property, or parameter** — Update the relevant doc page's reference table (Properties Reference or Methods Reference section).
 
-3. **New extension class** — Create a new doc page in `docs/`, add it to `docs/_sidebar.md`, and link it from `docs/README.md`.
+3. **New extension class** — Create/update the owning module's `docs/` pages and its `_sidebar.md`; project-level pages only for cross-module concerns (then link from `docs/_sidebar.md`).
 
 4. **Modified AcroToxExt, AcroVersionExt, or AcroVersionManager** — Verify the corresponding doc page matches the current code (parameter tables, method signatures, behavior descriptions).
 
@@ -386,21 +395,21 @@ When modifying code in this project, follow these rules to keep documentation in
 
 9. **Keep code examples accurate** — Code snippets in docs should match actual API signatures. If you change a method signature, update all examples that use it.
 
-10. **Version badge** — When bumping the project version, update the version badge in `docs/README.md`.
+10. **Version badge** — When bumping the project version, update the version badge in `README.md` and `docs/README.md`.
 
 ## Version File Format
 
 ```json
 {
-  "version": "1.10.6",
-  "build": 485,
-  "last_update": "2026-04-30T17:35:56",
+  "version": "1.10.12",
+  "build": 515,
+  "last_update": "2026-06-11T10:38:36.567241",
   "td_version": "099",
-  "td_build": "2025.32280"
+  "td_build": "2025.32820"
 }
 ```
 
-The main project version file is `acro-td-core-version.json`. Individual components have their own version files at `modules/acro-td-<module>/acro-td-<module>-version.json`.
+The main project version file is `AcroCore-VERSION.json`. Individual components have their own version files at `modules/acro-td-<module>/<ClassName>-VERSION.json` (e.g. `modules/acro-td-macros/AcroMacros-VERSION.json`), with changelogs named `<ClassName>-CHANGELOG.md`.
 
 ## Project Structure
 
@@ -409,34 +418,37 @@ acro-td-core/
 ├── scripts/                              # Core Python extensions
 │   ├── AcroCore.py                       # Main project extension
 │   └── AcroColors.py                     # UI color theming
-├── modules/                              # Git subtrees
+├── modules/                              # Git subtrees (each with its own docs/)
 │   ├── acro-td-version-manager/          # Central version/tox management
 │   │   ├── scripts/AcroToxExt.py
 │   │   ├── scripts/AcroVersionExt.py
 │   │   ├── scripts/AcroVersionManager.py
-│   │   ├── acro-td-version-manager-version.json
-│   │   └── acro-td-version-manager-CHANGELOG.md
+│   │   ├── AcroVersionManager-VERSION.json
+│   │   └── AcroVersionManager-CHANGELOG.md
 │   ├── acro-td-component-creator/        # Component scaffolding tool
 │   │   ├── scripts/AcroComponentCreator.py
 │   │   ├── scripts/AcroComponentCreateDialog.py
 │   │   ├── scripts/CallbacksTemplates/   # Jinja2 code-gen templates
-│   │   ├── acro-td-component-creator-version.json
-│   │   └── acro-td-component-creator-CHANGELOG.md
+│   │   ├── AcroComponentCreator-VERSION.json
+│   │   └── AcroComponentCreator-CHANGELOG.md
 │   ├── acro-td-hotkey-manager/           # Central hotkey management
 │   │   ├── scripts/AcroHotkeyManager.py
-│   │   ├── acro-td-hotkey-manager-version.json
-│   │   └── acro-td-hotkey-manager-CHANGELOG.md
+│   │   ├── AcroHotkeyManager-VERSION.json
+│   │   └── AcroHotkeyManager-CHANGELOG.md
 │   ├── acro-td-mcp/                      # MCP server + TD bridge
 │   │   ├── src/index.ts                  # MCP tool registrations
 │   │   ├── src/client.ts                 # Typed HTTP client for AcroMCP
 │   │   ├── dist/index.js                 # Built bundle (esbuild)
 │   │   ├── scripts/AcroMCP.py            # TD-side HTTP API bridge
 │   │   └── reference/                    # TD reference docs (served via td_guide)
-│   ├── acro-td-macros/                # Macros framework
+│   ├── acro-td-macros/                   # AcroMacros framework
 │   ├── acro-td-theme-manager/            # CSS-based theme system
 │   └── acro-td-widgets/                  # Widget UI system
-├── docs/                                 # Docsify documentation site
+├── docs/                                 # Main Docsify documentation site
+├── assets/                               # Templates copied into new projects (template.yml)
+├── template.yml                          # ALPACKA project-template config
+├── AcroCore.toe                          # Main TouchDesigner project file
 ├── .mcp.json                             # MCP server config (points to modules/acro-td-mcp/dist/index.js)
-├── acro-td-core-version.json             # Project version file
-└── acro-td-core-CHANGELOG.md             # Version history
+├── AcroCore-VERSION.json                 # Project version file
+└── AcroCore-CHANGELOG.md                 # Version history
 ```

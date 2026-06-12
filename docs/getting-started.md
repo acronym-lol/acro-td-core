@@ -53,16 +53,16 @@ acro-td-core/
 │   ├── acro-td-component-creator/        ← Component scaffolding tool
 │   ├── acro-td-hotkey-manager/           ← Central hotkey registry
 │   ├── acro-td-theme-manager/            ← UI theming
-│   ├── acro-td-macros/                ← Macro framework
+│   ├── acro-td-macros/                   ← Macro framework
 │   ├── acro-td-widgets/                  ← Widget framework
 │   └── acro-td-mcp/                      ← MCP server + AcroMCP HTTP API
 ├── docs/                                 ← This documentation site
 ├── tox/                                  ← External component .tox files
-├── acro-td-core-version.json             ← Project version file
-└── acro-td-core-CHANGELOG.md             ← Project version history
+├── AcroCore-VERSION.json                 ← Project version file
+└── AcroCore-CHANGELOG.md                 ← Project version history
 ```
 
-Each module under `modules/` carries its own version file (`acro-td-<module>-version.json`) and changelog (`acro-td-<module>-CHANGELOG.md`).
+Each module under `modules/` carries its own version file (`<ClassName>-VERSION.json`, e.g. `AcroMacros-VERSION.json`) and changelog (`<ClassName>-CHANGELOG.md`).
 
 ## Using as a Template
 

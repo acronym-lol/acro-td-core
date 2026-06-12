@@ -50,6 +50,7 @@ Thumbs.db
 
 Backup/
 CrashAutoSave*.toe
+AcroCore.[0-9]*.toe
 venv/
 TDLogs/
 .claude/settings.local.json

@@ -1,6 +1,6 @@
 # Acro TD Core
 
-![Version](https://img.shields.io/badge/version-1.10.6-blue)
+![Version](https://img.shields.io/badge/version-1.10.12-blue)
 
 A TouchDesigner project template with automated version management, external tox file handling, and component scaffolding.
 
@@ -31,7 +31,7 @@ This template bundles seven modules as git subtrees and wires them together at p
    ./setup.sh    # macOS / Linux
    ```
 
-3. Open `AcroTDCore.toe` in TouchDesigner.
+3. Open `AcroCore.toe` in TouchDesigner.
 
 4. On first load, the project will:
    - Initialize each module's tox + version tracking

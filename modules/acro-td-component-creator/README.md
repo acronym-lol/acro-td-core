@@ -13,7 +13,7 @@ Dialog-based component scaffolding tool for TouchDesigner.
 
 ```python
 # Get default settings
-settings = op.COMPCREATOR.DefaultSettings()
+settings = op.ACC.DefaultSettings()
 
 # Configure component
 settings['Classname'] = 'MyComponent'
@@ -22,7 +22,7 @@ settings['Opshortcut'] = True
 settings['Path'] = '/components'
 
 # Create the component
-op.COMPCREATOR.CreateComponent(settings)
+op.ACC.CreateComponent(settings)
 ```
 
 Or use the keyboard shortcut **Ctrl+Alt+Shift+N** to open the creation dialog.

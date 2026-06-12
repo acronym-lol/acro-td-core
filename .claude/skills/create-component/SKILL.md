@@ -24,7 +24,7 @@ Scaffold a new TouchDesigner component using the ComponentCreator API.
 4. Create the component via `td_execute`:
 
 ```python
-s = op.COMPCREATOR.DefaultSettings()
+s = op.ACC.DefaultSettings()
 s['Classname'] = 'ComponentName'  # UpperCamelCase
 s['Shortcut'] = 'COMPNAME'        # UPPERCASE, 2+ chars
 s['Opshortcut'] = True            # if user wants op.SHORTCUT access
@@ -33,7 +33,7 @@ s['Path'] = '/components'
 s['Posx'] = <x from td_find_empty>
 s['Posy'] = <y from td_find_empty>
 # Set any network protocol flags as needed
-op.COMPCREATOR.CreateComponent(s)
+op.ACC.CreateComponent(s)
 ```
 
 5. Confirm creation and tell the user how to access it (e.g., `op.COMPNAME`)
