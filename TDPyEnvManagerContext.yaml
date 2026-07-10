@@ -1,5 +1,3 @@
-contextVersion: 2
-createdByVersion: 1.4.1
 active: true
 mode: Python vEnv
 envName: acro-core
@@ -7,5 +5,4 @@ installPath: .
 pythonVersion: 3.11.9
 autoSetup: true
 autoSetupReqs: []
-autoSetupSyncReqs: false
 extraPaths: []
