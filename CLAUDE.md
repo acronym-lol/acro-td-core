@@ -223,10 +223,17 @@ def onTrigger(info, mc, macro, comps, args):
 
 ### REST API
 
-AcroMacros also exposes a REST API over HTTP (`modules/acro-td-macros/scripts/macro_webserver.py` +
-`macro_api_router.py`), wrapping the same methods above for clients that can't call `op.AM.*` Python directly
-(browser UIs, curl, other languages). It lives at `/AcroMacros/webserver_api` and is configured via the **`API`**
-custom page on `/AcroMacros` (port, TLS, content-type — every `webserver_api` parameter is bound there; see
+AcroMacros also exposes a REST API over HTTP, wrapping the same methods above for clients that can't call
+`op.AM.*` Python directly (browser UIs, curl, other languages). It's implemented by **`AcroRestAPI`** — a
+second extension on `/AcroMacros` itself (Extensions page slot 1, alongside `AcroMacros` at slot 0) — which
+handles CORS and JSON parsing (`AcroRestAPI.py`) and calls `macro_api_router.py` for routing.
+`macro_webserver.py` is just the required webserverDAT callback shim; it has no real logic, it forwards
+straight to `dat.parent().ext.AcroRestAPI.OnHTTPRequest(...)`. Because `AcroRestAPI` lives on the same
+component as `AcroMacros`, the router reaches it via `ownerComp.extensions[0]` rather than a hardcoded
+`op('/AcroMacros')` path.
+
+The server (`webserver_api`, a `webserverDAT` inside `/AcroMacros`) is configured via the **`API`** custom
+page on `/AcroMacros` (port, TLS, content-type — every `webserver_api` parameter is bound there; see
 [Configuring the server](modules/acro-td-macros/docs/http-api.md#configuring-the-server--the-api-page) for the full parameter table).
 
 - **Base URL**: `http://localhost:{Webserverport}/api/v1` (`9980` by default in this project)
