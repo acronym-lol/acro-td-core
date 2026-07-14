@@ -225,8 +225,9 @@ def onTrigger(info, mc, macro, comps, args):
 
 AcroMacros also exposes a REST API over HTTP (`modules/acro-td-macros/scripts/macro_webserver.py` +
 `macro_api_router.py`), wrapping the same methods above for clients that can't call `op.AM.*` Python directly
-(browser UIs, curl, other languages). It lives at `/AcroMacros/webserver1` and is configured via the **`Api`**
-custom page on `/AcroMacros` (port, TLS, content-type — every `webserver1` parameter is bound there).
+(browser UIs, curl, other languages). It lives at `/AcroMacros/webserver1` and is configured via the **`API`**
+custom page on `/AcroMacros` (port, TLS, content-type — every `webserver1` parameter is bound there; see
+[Configuring the server](modules/acro-td-macros/docs/http-api.md#configuring-the-server--the-api-page) for the full parameter table).
 
 - **Base URL**: `http://localhost:{Webserverport}/api/v1` (`9980` by default in this project)
 - **Auth**: none — local dev only. CORS is wide open.
