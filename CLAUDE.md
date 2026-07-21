@@ -224,11 +224,11 @@ def onTrigger(info, mc, macro, comps, args):
 ### REST API
 
 AcroMacros also exposes a REST API over HTTP, wrapping the same methods above for clients that can't call
-`op.AM.*` Python directly (browser UIs, curl, other languages). It's implemented by **`AcroRestAPI`** — a
+`op.AM.*` Python directly (browser UIs, curl, other languages). It's implemented by **`AcroMacrosRestAPI`** — a
 second extension on `/AcroMacros` itself (Extensions page slot 1, alongside `AcroMacros` at slot 0) — which
-handles CORS and JSON parsing (`AcroRestAPI.py`) and calls `macro_api_router.py` for routing.
+handles CORS and JSON parsing (`AcroMacrosRestAPI.py`) and calls `macro_api_router.py` for routing.
 `macro_webserver.py` is just the required webserverDAT callback shim; it has no real logic, it forwards
-straight to `dat.parent().ext.AcroRestAPI.OnHTTPRequest(...)`. Because `AcroRestAPI` lives on the same
+straight to `ext.AcroMacrosRestAPI.OnHTTPRequest(...)`. Because `AcroMacrosRestAPI` lives on the same
 component as `AcroMacros`, the router reaches it via `ownerComp.extensions[0]` rather than a hardcoded
 `op('/AcroMacros')` path.
 
