@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.2.0] - 2026-07-14
+- Create AcroRestAPI ext
+
+## [3.1.0] - 2026-07-14
+- Fix api router handlers
+
+## [3.0.0] - 2026-07-09
+- Added Macro API Access
+
 ## [2.2.5] - 2026-06-09
 - Updated changelog and version paths
 

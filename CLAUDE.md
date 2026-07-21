@@ -221,6 +221,29 @@ def onTrigger(info, mc, macro, comps, args):
     return
 ```
 
+### REST API
+
+AcroMacros also exposes a REST API over HTTP, wrapping the same methods above for clients that can't call
+`op.AM.*` Python directly (browser UIs, curl, other languages). It's implemented by **`AcroMacrosRestAPI`** — a
+second extension on `/AcroMacros` itself (Extensions page slot 1, alongside `AcroMacros` at slot 0) — which
+handles CORS and JSON parsing (`AcroMacrosRestAPI.py`) and calls `macro_api_router.py` for routing.
+`macro_webserver.py` is just the required webserverDAT callback shim; it has no real logic, it forwards
+straight to `ext.AcroMacrosRestAPI.OnHTTPRequest(...)`. Because `AcroMacrosRestAPI` lives on the same
+component as `AcroMacros`, the router reaches it via `ownerComp.extensions[0]` rather than a hardcoded
+`op('/AcroMacros')` path.
+
+The server (`webserver_api`, a `webserverDAT` inside `/AcroMacros`) is configured via the **`API`** custom
+page on `/AcroMacros` (port, TLS, content-type — every `webserver_api` parameter is bound there; see
+[Configuring the server](modules/acro-td-macros/docs/http-api.md#configuring-the-server--the-api-page) for the full parameter table).
+
+- **Base URL**: `http://localhost:{Webserverport}/api/v1` (`9980` by default in this project)
+- **Auth**: none — local dev only. CORS is wide open.
+- **Key routes**: `GET/POST /macros`, `GET/PATCH/DELETE /macros/{path}`, `GET/PUT /macros/{path}/callback`,
+  `POST /macros/{path}/trigger`, `POST /macros/{path}/move|duplicate`, `GET/DELETE /macros/{path}/log`,
+  `GET /signals`, `POST /signals/{signal}/emit`.
+- Full reference (error format, safety-prompt suspension, nested-path caveat, examples):
+  **[REST API docs](modules/acro-td-macros/docs/http-api.md)**.
+
 ## AcroWidgets — Widget System
 
 **AcroWidgets** (`/AcroWidgets`, global shortcut `op.AW`) is a widget management system for building custom user interfaces in TouchDesigner. It provides widget discovery, component inspection, and clipboard operations.
@@ -365,7 +388,7 @@ modules/<module>/docs/         <- Per-module Docsify mini-sites
         base-template.md, protected-colors.md, themes-library.md, theme-manager.md
     acro-td-component-creator/docs/: api.md
     acro-td-hotkey-manager/docs/: api.md
-    acro-td-macros/docs/: api.md
+    acro-td-macros/docs/: api.md, http-api.md
     acro-td-widgets/docs/: widgets.md
     acro-td-mcp/docs/: mcp-tools.md, http-api.md
 ```
