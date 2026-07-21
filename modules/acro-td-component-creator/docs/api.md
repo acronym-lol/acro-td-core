@@ -125,7 +125,7 @@ Invalid examples:
 
 - `m` -- too short, lowercase
 - `Mc` -- second character must be uppercase
-- `mc` -- must start with uppercase
+- `am` -- must start with uppercase
 
 ---
 
