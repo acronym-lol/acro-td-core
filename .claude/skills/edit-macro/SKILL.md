@@ -33,11 +33,11 @@ View and edit the callback code for a Macros macro.
 8. Save the updated code using `td_execute`:
    ```python
    op.AM.SetCallbackCode("macro/path", '''
-   def onInit(info, mc, macro):
+   def onInit(info, am, macro):
        # initialization code
        return
 
-   def onTrigger(info, mc, macro, comps, args):
+   def onTrigger(info, am, macro, comps, args):
        # trigger code
        return
    ''')
@@ -48,12 +48,12 @@ View and edit the callback code for a Macros macro.
 ## Callback Template
 
 ```python
-def onInit(info, mc, macro):
+def onInit(info, am, macro):
     # Called when macro initializes
-    # mc.Subscribe(macro, 'signal_name')  # subscribe to signals here
+    # am.Subscribe(macro, 'signal_name')  # subscribe to signals here
     return
 
-def onTrigger(info, mc, macro, comps, args):
+def onTrigger(info, am, macro, comps, args):
     # Called when macro is triggered or receives a subscribed signal
     # comps = op.comps (component shortcuts)
     # args = data passed to TriggerMacro or Emit
@@ -63,5 +63,5 @@ def onTrigger(info, mc, macro, comps, args):
 ## Tips
 
 - Use `comps.SHORTCUT` to access components with global shortcuts
-- Subscribe to signals in `onInit` with `mc.Subscribe(macro, 'signal_name')`
-- Emit signals with `mc.Emit('signal_name', args)` from any macro
+- Subscribe to signals in `onInit` with `am.Subscribe(macro, 'signal_name')`
+- Emit signals with `am.Emit('signal_name', args)` from any macro

@@ -31,11 +31,11 @@ Create a new macro in the Macros system.
 5. Optionally, set initial callback code. Ask the user what the macro should do, then use:
    ```python
    op.AM.SetCallbackCode("path/to/MacroName", '''
-   def onInit(info, mc, macro):
-       # mc.Subscribe(macro, 'signal_name')  # subscribe to signals
+   def onInit(info, am, macro):
+       # am.Subscribe(macro, 'signal_name')  # subscribe to signals
        return
 
-   def onTrigger(info, mc, macro, comps, args):
+   def onTrigger(info, am, macro, comps, args):
        # comps is op.comps (component shortcuts)
        # args is whatever was passed to TriggerMacro or Emit
        print("MacroName triggered!")

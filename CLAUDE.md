@@ -211,11 +211,11 @@ The **AcroMacros** component (`/AcroMacros`, global shortcut `op.AM`) is a macro
 ### Macro Callback Template
 
 ```python
-def onInit(info, mc, macro):
-    # mc.Subscribe(macro, 'signal_name')  # subscribe to signals here
+def onInit(info, am, macro):
+    # am.Subscribe(macro, 'signal_name')  # subscribe to signals here
     return
 
-def onTrigger(info, mc, macro, comps, args):
+def onTrigger(info, am, macro, comps, args):
     # comps is op.comps (component shortcuts)
     # args is whatever was passed to TriggerMacro or Emit
     return
