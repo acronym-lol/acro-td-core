@@ -26,6 +26,10 @@ visibility: internal
 
 category: touchdesigner
 
+# Second level of the acro-docs sidebar, within `category`. This repo is the project
+# template that the seven modules are bundled into as git subtrees.
+group: project-template
+
 requires:
   - TouchDesigner
 
