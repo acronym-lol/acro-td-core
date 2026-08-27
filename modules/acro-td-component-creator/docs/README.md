@@ -1,3 +1,7 @@
+---
+last_reviewed: 2026-08-27
+---
+
 # Acro TD Component Creator
 
 Dialog-based component scaffolding tool for TouchDesigner.

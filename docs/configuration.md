@@ -1,3 +1,7 @@
+---
+last_reviewed: 2026-08-27
+---
+
 # Configuration Reference
 
 This is the centralized reference for all parameters, tags, and file formats across the system. For detailed explanations of behavior, see the individual pages for each component.

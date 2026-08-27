@@ -1,3 +1,7 @@
+---
+last_reviewed: 2026-08-27
+---
+
 # Acro TD Core
 
 ![Version](https://img.shields.io/badge/version-1.10.12-blue)
