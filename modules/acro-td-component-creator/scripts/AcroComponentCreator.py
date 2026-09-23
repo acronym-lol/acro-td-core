@@ -192,11 +192,11 @@ class AcroComponentCreator(CallbacksExt, AcroVersionExt):
         return bool(re.match(r'^[A-Z][A-Z0-9_]+$', name))
 
     # -------------------------------------------------------------------------
-    # Component creation — dialog handler
+    # Component creation - dialog handler
     # -------------------------------------------------------------------------
 
     def createComponent(self):
-        """Dialog button handler — validates with messageBox, closes dialog,
+        """Dialog button handler - validates with messageBox, closes dialog,
         then delegates to CreateComponent()."""
         settings = self._dialogSettings()
 
@@ -212,7 +212,7 @@ class AcroComponentCreator(CallbacksExt, AcroVersionExt):
         self.CreateComponent(settings)
 
     # -------------------------------------------------------------------------
-    # Component creation — public API
+    # Component creation - public API
     # -------------------------------------------------------------------------
 
     def CreateComponent(self, settings=None):

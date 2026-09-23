@@ -11,7 +11,7 @@ class AcroComponentCreateDialog:
         self._ensureConnectionsPage()
 
     # -----------------------------------------------------------------
-    # Controls page — dialog mechanics (Open, Close, Path, Pos)
+    # Controls page - dialog mechanics (Open, Close, Path, Pos)
     # -----------------------------------------------------------------
 
     def _ensureControlsPage(self):
@@ -27,7 +27,7 @@ class AcroComponentCreateDialog:
         page.appendPulse('Rebuilddialog', label='Rebuild Dialog')
 
     # -----------------------------------------------------------------
-    # Settings page — class, comp type, and options
+    # Settings page - class, comp type, and options
     # -----------------------------------------------------------------
 
     def _ensureSettingsPage(self):
@@ -66,7 +66,7 @@ class AcroComponentCreateDialog:
         page.appendToggle('Examples', label='Examples')
 
     # -----------------------------------------------------------------
-    # Connections page — communication protocol toggles
+    # Connections page - communication protocol toggles
     # -----------------------------------------------------------------
 
     def _ensureConnectionsPage(self):
@@ -98,7 +98,7 @@ class AcroComponentCreateDialog:
         par_comp.par.pagenames = True
 
     # -----------------------------------------------------------------
-    # Rebuild — delete and recreate all custom pages
+    # Rebuild - delete and recreate all custom pages
     # -----------------------------------------------------------------
 
     def RebuildDialog(self):
