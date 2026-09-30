@@ -1,6 +1,10 @@
 # Acro TD Component Creator
 
+[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://acronym-lol.github.io/acro-td-component-creator/)
+
 Dialog-based component scaffolding tool for TouchDesigner.
+
+**Documentation:** https://acronym-lol.github.io/acro-td-component-creator/
 
 ## Features
 
