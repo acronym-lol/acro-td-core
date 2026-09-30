@@ -1,0 +1,33 @@
+# Keeps every docs site's _sidebar.md generated from its folder, using the same rules as
+# the acro-docs site. See https://github.com/acronym-lol/acro-docs-theme/blob/main/MIGRATING.md
+#
+# The module folders are git subtrees published to their own repos. Their sidebars are
+# generated HERE and carried out by `git subtree push`; never add this workflow to a
+# module repo, or its bot commit makes the next subtree push non-fast-forward.
+name: Docs sidebar
+
+on:
+  push:
+    paths:
+      - 'docs/**'
+      - 'modules/*/docs/**'
+      - '!docs/_sidebar.md'
+      - '!modules/*/docs/_sidebar.md'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sidebar:
+    uses: acronym-lol/acro-docs-theme/.github/workflows/sidebar.yml@v1
+    with:
+      docs-paths: |
+        docs
+        modules/acro-td-component-creator/docs
+        modules/acro-td-hotkey-manager/docs
+        modules/acro-td-macros/docs
+        modules/acro-td-mcp/docs
+        modules/acro-td-theme-manager/docs
+        modules/acro-td-version-manager/docs
+        modules/acro-td-widgets/docs

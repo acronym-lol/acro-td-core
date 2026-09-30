@@ -339,24 +339,25 @@ comp.par.externaltox.mode = ParMode.EXPRESSION
 
 ## Documentation Site
 
-The project uses **Docsify** for documentation, hosted via GitHub Pages from the `docs/` directory.
+The project uses **Docsify** with the shared [acro-docs-theme](https://github.com/acronym-lol/acro-docs-theme), published on GitHub Pages. There are eight sites: this repo's `docs/` (https://acronym-lol.github.io/acro-td-core/), and one per module, each published from its own repo's `docs/` via the subtree (https://acronym-lol.github.io/acro-td-<module>/).
 
 ### Documentation Structure
 
-Project-level docs live in `docs/`; each module ships its own Docsify mini-site in `modules/<module>/docs/`.
+Project-level docs live in `docs/`; each module ships its own site in `modules/<module>/docs/`. Every site folder has the same shape:
 
 ```
-docs/                          <- Main Docsify site (project-level)
+docs/                          <- Main site (project-level)
 ├── .nojekyll                  <- Disables Jekyll on GitHub Pages
-├── index.html                 <- Docsify configuration
-├── _sidebar.md                <- Navigation sidebar (links to module docs)
+├── index.html                 <- Theme shell: name + repo link only. Styling comes from the theme
+├── _sidebar.md                <- GENERATED from the folder. Never edit by hand
+├── _sidebar.extra.md          <- Hand-written links appended to the sidebar (module sites, core site)
+├── _meta.yml                  <- acro-docs metadata; name/summary feed the page header
 ├── README.md                  <- Home page
 ├── getting-started.md         <- Setup guide
 ├── architecture.md            <- System design overview
 └── configuration.md           <- All parameters, tags, file formats
 
-modules/<module>/docs/         <- Per-module Docsify mini-sites
-├── index.html / _sidebar.md   <- Standalone Docsify config per module
+modules/<module>/docs/         <- Per-module sites (same files as above)
 ├── README.md                  <- Module overview
 └── *.md                       <- Module reference pages, e.g.:
     acro-td-version-manager/docs/: tox-management.md, version-tracking.md,
@@ -370,6 +371,17 @@ modules/<module>/docs/         <- Per-module Docsify mini-sites
     acro-td-mcp/docs/: mcp-tools.md, http-api.md
 ```
 
+### Sidebars are generated
+
+`_sidebar.md` in every site is written by the theme's generator, and the `.github/workflows/acro-docs-sidebar.yml` workflow regenerates all eight on push. Every `.md` page (not starting with `_` or `.`) is listed automatically:
+
+- **Title**: `sidebar_label` in the page's front matter, else `title`, else its first `# ` heading.
+- **Order**: `sidebar_position` in front matter (ascending), then filename.
+- **Other links** (another site, an external page): add them to that site's `_sidebar.extra.md`.
+- Regenerate locally with `npx -p github:acronym-lol/acro-docs-theme#v1 acro-docs-sidebar docs modules/acro-td-*/docs`.
+- **Never add the sidebar workflow to a module repo.** Module sidebars are generated here and carried out by `git subtree push`; a bot commit in a module repo would make the next subtree push non-fast-forward.
+- Use GitHub-style callouts (`> [!WARNING]`, `> [!TIP]`, ...), not Docsify's `!>` / `?>`.
+
 ### Documentation Maintenance Rules
 
 When modifying code in this project, follow these rules to keep documentation in sync:
@@ -378,7 +390,7 @@ When modifying code in this project, follow these rules to keep documentation in
 
 2. **New public method, property, or parameter** — Update the relevant doc page's reference table (Properties Reference or Methods Reference section).
 
-3. **New extension class** — Create/update the owning module's `docs/` pages and its `_sidebar.md`; project-level pages only for cross-module concerns (then link from `docs/_sidebar.md`).
+3. **New extension class** — Create/update the owning module's `docs/` pages (the sidebar picks new pages up automatically; set `sidebar_position` if order matters); project-level pages only for cross-module concerns.
 
 4. **Modified AcroToxExt, AcroVersionExt, or AcroVersionManager** — Verify the corresponding doc page matches the current code (parameter tables, method signatures, behavior descriptions).
 

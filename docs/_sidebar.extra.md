@@ -1,0 +1,8 @@
+- **Modules**
+  - [Version Manager](https://acronym-lol.github.io/acro-td-version-manager/)
+  - [Component Creator](https://acronym-lol.github.io/acro-td-component-creator/)
+  - [Hotkey Manager](https://acronym-lol.github.io/acro-td-hotkey-manager/)
+  - [Theme Manager](https://acronym-lol.github.io/acro-td-theme-manager/)
+  - [Macros](https://acronym-lol.github.io/acro-td-macros/)
+  - [Widgets](https://acronym-lol.github.io/acro-td-widgets/)
+  - [MCP](https://acronym-lol.github.io/acro-td-mcp/)
