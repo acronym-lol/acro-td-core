@@ -373,11 +373,12 @@ modules/<module>/docs/         <- Per-module sites (same files as above)
 
 ### Sidebars are generated
 
-`_sidebar.md` in every site is written by the theme's generator, and the `.github/workflows/acro-docs-sidebar.yml` workflow regenerates all eight on push. Every `.md` page (not starting with `_` or `.`) is listed automatically:
+`_sidebar.md` in every site is rebuilt by the theme's generator, and the `.github/workflows/acro-docs-sidebar.yml` workflow regenerates all eight on push. The existing `_sidebar.md` is the author's order: each run rebuilds it from itself.
 
-- **Title**: `sidebar_label` in the page's front matter, else `title`, else its first `# ` heading.
-- **Order**: `sidebar_position` in front matter (ascending), then filename.
-- **Other links** (another site, an external page): add them to that site's `_sidebar.extra.md`.
+- **Order**: move lines in `_sidebar.md`; the next run keeps it. New pages are added after the listed ones, and links to deleted pages are dropped. Don't add `sidebar_position` just to set the order.
+- **Section labels**: top-level `- **Label**` lines stay where you put them (e.g. **Foundations**, **Workflows** in the version manager).
+- **Titles** come from the page: `sidebar_label` in front matter, else `title`, else its first `# ` heading. Editing the link text in `_sidebar.md` does nothing.
+- **Links to other sites** go in that site's `_sidebar.extra.md`, appended after a divider.
 - Regenerate locally with `npx -p github:acronym-lol/acro-docs-theme#v1 acro-docs-sidebar docs modules/acro-td-*/docs`.
 - **Never add the sidebar workflow to a module repo.** Module sidebars are generated here and carried out by `git subtree push`; a bot commit in a module repo would make the next subtree push non-fast-forward.
 - Use GitHub-style callouts (`> [!WARNING]`, `> [!TIP]`, ...), not Docsify's `!>` / `?>`.
