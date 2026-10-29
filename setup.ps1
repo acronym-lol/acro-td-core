@@ -41,8 +41,7 @@ Write-Host "Installing Python packages"
 # pip install requirements.txt
 & "$PythonPath\Scripts\pip.exe" install -r "$ScriptDir\requirements.txt"
 
-# install MCP server dependencies and build
-Write-Host "Installing MCP server dependencies"
-Set-Location $ScriptDir
-npm install
-npm run build
+# The MCP server ships prebuilt (modules/acro-td-mcp/dist/index.js); it only needs Node
+if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
+    Write-Warning "Node.js was not found on PATH. Install it to use the acro-td-mcp MCP server."
+}

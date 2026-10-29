@@ -1,0 +1,48 @@
+# Fails when the committed MCP bundle (modules/acro-td-mcp/dist/index.js) doesn't match
+# its source. The bundle is committed so users only need Node, which means a src/ change
+# without a rebuild would ship a stale server.
+#
+# To fix a failure: run `npm install && npm run build` at the repo root and commit
+# modules/acro-td-mcp/dist/index.js.
+#
+# Read-only on purpose (no bot commit), so it never makes a subtree push non-fast-forward.
+name: MCP bundle
+
+on:
+  push:
+    paths:
+      - 'modules/acro-td-mcp/src/**'
+      - 'modules/acro-td-mcp/dist/**'
+      - 'modules/acro-td-mcp/package*.json'
+      - 'package*.json'
+      - '.github/workflows/mcp-bundle.yml'
+  pull_request:
+    paths:
+      - 'modules/acro-td-mcp/src/**'
+      - 'modules/acro-td-mcp/dist/**'
+      - 'modules/acro-td-mcp/package*.json'
+      - 'package*.json'
+      - '.github/workflows/mcp-bundle.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Bundle matches source
+        run: |
+          if ! git diff --quiet -- modules/acro-td-mcp/dist; then
+            echo "::error::modules/acro-td-mcp/dist/index.js is out of date. Run 'npm run build' at the repo root and commit it."
+            git diff --stat -- modules/acro-td-mcp/dist
+            exit 1
+          fi
