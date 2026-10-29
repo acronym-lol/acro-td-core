@@ -5,8 +5,8 @@
   "description": "MCP server for Acro TD Core AcroMCP API",
   "type": "module",
   "scripts": {
-    "build": "esbuild modules/acro-td-mcp/src/index.ts --bundle --platform=node --format=esm --outfile=modules/acro-td-mcp/dist/index.js --banner:js=\"import { createRequire } from 'module'; const require = createRequire(import.meta.url);\"",
-    "build:watch": "npm run build -- --watch"
+    "build": "npm --prefix modules/acro-td-mcp run build",
+    "build:watch": "npm --prefix modules/acro-td-mcp run build:watch"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",

@@ -6,9 +6,9 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # launchctl setenv makes it available to GUI apps (like TouchDesigner)
 launchctl setenv ACRO_TD_CORE "$SCRIPT_DIR"
 # .zshenv makes it available in terminal sessions
-if ! grep -q 'ACRO_TD_CORE' ~/.zshenv 2>/dev/null; then
-    echo "export ACRO_TD_CORE=\"$SCRIPT_DIR\"" >> ~/.zshenv
-fi
+# Drop any earlier line (e.g. from before the repo moved), then add the current path
+if [ -f ~/.zshenv ]; then sed -i.bak '/^export ACRO_TD_CORE=/d' ~/.zshenv && rm -f ~/.zshenv.bak; fi
+echo "export ACRO_TD_CORE=\"$SCRIPT_DIR\"" >> ~/.zshenv
 export ACRO_TD_CORE="$SCRIPT_DIR"
 echo "ACRO_TD_CORE set to $SCRIPT_DIR"
 
@@ -48,8 +48,7 @@ echo -e "$CONTENT" > "$FILE_PATH"
 chmod 777 "$FILE_PATH"
 echo "TD pref.txt file created at $FILE_PATH"
 
-# install MCP server dependencies and build
-echo "Installing MCP server dependencies"
-cd "$SCRIPT_DIR"
-npm install
-npm run build
+# The MCP server ships prebuilt (modules/acro-td-mcp/dist/index.js); it only needs Node
+if ! command -v node >/dev/null 2>&1; then
+    echo "WARNING: Node.js was not found on PATH. Install it to use the acro-td-mcp MCP server."
+fi

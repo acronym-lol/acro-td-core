@@ -52,13 +52,19 @@ Claude Code  →  MCP Server (modules/acro-td-mcp/dist/index.js)  →  AcroMCP H
 - **AcroMCP** (`/AcroMCP`): TD webserver component (auto-assigned port 54200-54209). It runs any Python it's sent,
   so it accepts only local requests with no `Origin` header that carry the per-session token from the instance
   registry (`%TEMP%/acro-td-mcp-instances.json`). The MCP server sends the token automatically.
-- External projects get a `.mcp.json` pointing to this repo's MCP server (created by `AcroCore.onSave()` via `template.yml`).
+- **`.mcp.json`** points at `${ACRO_TD_MCP}/dist/index.js`. Claude Code expands the variable, which `setup.ps1` /
+  `setup.sh` sets, so no machine-specific path is committed. This repo's copy falls back to
+  `modules/acro-td-mcp` when the variable isn't set. Projects created by the launcher get the same file from
+  `assets/.mcp.json.template` (copied as-is via `template.yml`).
 
 ### MCP Server Development
 
+The bundle (`modules/acro-td-mcp/dist/index.js`) is **committed**, so users need only Node. After editing
+`modules/acro-td-mcp/src/`, rebuild and commit it. The `MCP bundle` CI workflow fails if it's stale.
+
 ```bash
-# Build after editing modules/acro-td-mcp/src/
-npm run build
+npm install      # once
+npm run build    # runs the module's own build script
 ```
 
 The MCP server also serves reference docs from `modules/acro-td-mcp/reference/` via the `td_guide` tool.
@@ -485,7 +491,7 @@ acro-td-core/
 │   ├── acro-td-mcp/                      # MCP server + TD bridge
 │   │   ├── src/index.ts                  # MCP tool registrations
 │   │   ├── src/client.ts                 # Typed HTTP client for AcroMCP
-│   │   ├── dist/index.js                 # Built bundle (esbuild)
+│   │   ├── dist/index.js                 # Built bundle (esbuild), committed; rebuild after src/ changes
 │   │   ├── scripts/AcroMCP.py            # TD-side HTTP API bridge
 │   │   └── reference/                    # TD reference docs (served via td_guide)
 │   ├── acro-td-macros/                   # AcroMacros framework
@@ -495,7 +501,7 @@ acro-td-core/
 ├── assets/                               # Templates copied into new projects (template.yml)
 ├── template.yml                          # ALPACKA project-template config
 ├── AcroCore.toe                          # Main TouchDesigner project file
-├── .mcp.json                             # MCP server config (points to modules/acro-td-mcp/dist/index.js)
+├── .mcp.json                             # MCP server config (${ACRO_TD_MCP}/dist/index.js)
 ├── AcroCore-VERSION.json                 # Project version file
 └── AcroCore-CHANGELOG.md                 # Version history
 ```

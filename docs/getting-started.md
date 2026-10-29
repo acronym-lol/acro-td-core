@@ -9,6 +9,7 @@ last_reviewed: 2026-08-27
 - **TouchDesigner** 2025+ (tested with build 2025.32280)
 - **Git** (for version checking and subtree management)
 - **Python 3** (bundled with TouchDesigner)
+- **Node.js** on your `PATH`, to run the MCP server for Claude Code. It ships prebuilt, so there's nothing to install or build.
 
 ## Installation
 
@@ -35,6 +36,14 @@ Then run the parent setup script, which loops over each module's `setup.ps1` / `
 Each per-module setup script registers a per-module variable (`ACRO_TD_VERSION_MANAGER`, `ACRO_TD_COMPONENT_CREATOR`, `ACRO_TD_HOTKEY_MANAGER`, `ACRO_TD_MACROS`, `ACRO_TD_MCP`, `ACRO_TD_THEME_MANAGER`, `ACRO_TD_WIDGETS`) pointing at the absolute path of the module on disk. See [Configuration Reference → Per-Module Environment Variables](configuration#per-module-environment-variables) for the full list.
 
 Open the `.toe` file in TouchDesigner once the variables are set.
+
+### Claude Code and `.mcp.json`
+
+The project's `.mcp.json` starts the MCP server from `${ACRO_TD_MCP}/dist/index.js`. Claude Code fills in the variable when it starts the server, so the file has no machine-specific path and works for anyone who has run the setup script. Start Claude Code from a new terminal after running setup so it sees the variable.
+
+If you move the repo, run the setup script again so the variables point at the new location.
+
+Projects created before this change have an absolute path written into their `.mcp.json`. To fix one, change its `args` entry to `"${ACRO_TD_MCP}/dist/index.js"`.
 
 ## First-Time Setup
 

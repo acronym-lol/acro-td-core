@@ -20,11 +20,11 @@ files:
     dst: CLAUDE.md
     substitute: true
 
-  # MCP server config — {{ACRO_TD_CORE}} is substituted to the
-  # absolute path of this repo so Claude Code can find the MCP bundle.
+  # MCP server config. Copied as-is: Claude Code itself expands
+  # ${ACRO_TD_MCP} (set by setup.ps1 / setup.sh) when it starts the server,
+  # so no machine-specific path is written into the project.
   - src: assets/.mcp.json.template
     dst: .mcp.json
-    substitute: true
 
   # tdPyEnvManager context — drives the palette's autoSetup on first
   # .toe open. envName is `.venv` to match Python convention; the
@@ -46,5 +46,4 @@ trees:
     overwrite: true
 
 substitutions:
-  ACRO_TD_CORE: "{{env:ACRO_TD_CORE}}"
   PROJECT_NAME: "{{project:name}}"

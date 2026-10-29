@@ -3,7 +3,7 @@
     "acro-td-mcp": {
       "command": "node",
       "args": [
-        "C:/Software/acro-td-core/modules/acro-td-mcp/dist/index.js"
+        "${ACRO_TD_MCP:-modules/acro-td-mcp}/dist/index.js"
       ]
     }
   }
