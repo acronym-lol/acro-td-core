@@ -49,7 +49,9 @@ Claude Code  →  MCP Server (modules/acro-td-mcp/dist/index.js)  →  AcroMCP H
 ```
 
 - **MCP server** (`modules/acro-td-mcp/`): Node.js process with registered MCP tools.
-- **AcroMCP** (`/AcroMCP`): TD webserver component (auto-assigned port 54200-54209).
+- **AcroMCP** (`/AcroMCP`): TD webserver component (auto-assigned port 54200-54209). It runs any Python it's sent,
+  so it accepts only local requests with no `Origin` header that carry the per-session token from the instance
+  registry (`%TEMP%/acro-td-mcp-instances.json`). The MCP server sends the token automatically.
 - External projects get a `.mcp.json` pointing to this repo's MCP server (created by `AcroCore.onSave()` via `template.yml`).
 
 ### MCP Server Development
@@ -225,19 +227,28 @@ def onTrigger(info, am, macro, comps, args):
 
 AcroMacros also exposes a REST API over HTTP, wrapping the same methods above for clients that can't call
 `op.AM.*` Python directly (browser UIs, curl, other languages). It's implemented by **`AcroMacrosRestAPI`** — a
-second extension on `/AcroMacros` itself (Extensions page slot 1, alongside `AcroMacros` at slot 0) — which
-handles CORS and JSON parsing (`AcroMacrosRestAPI.py`) and calls `macro_api_router.py` for routing.
+second extension on `/AcroMacros` itself (Extensions page slot 1, alongside `AcroMacros` at slot 0, extension
+name `AcroMacrosRestAPI`) — which handles access checks, CORS and JSON parsing (`AcroMacrosRestAPI.py`) and calls
+`macro_api_router.py` for routing.
 `webserver_api_callbacks.py` is just the required webserverDAT callback shim; it has no real logic, it forwards
 straight to `ext.AcroMacrosRestAPI.OnHTTPRequest(...)`. Because `AcroMacrosRestAPI` lives on the same
 component as `AcroMacros`, the router reaches it via `ownerComp.extensions[0]` rather than a hardcoded
 `op('/AcroMacros')` path.
 
 The server (`webserver_api`, a `webserverDAT` inside `/AcroMacros`) is configured via the **`API`** custom
-page on `/AcroMacros` (port, TLS, content-type — every `webserver_api` parameter is bound there; see
+page on `/AcroMacros` (port, TLS, content-type — every `webserver_api` parameter is bound there, except the
+certificate password, which is read from an environment variable; see
 [Configuring the server](modules/acro-td-macros/docs/http-api.md#configuring-the-server--the-api-page) for the full parameter table).
 
 - **Base URL**: `http://localhost:{Webserverport}/api/v1` (`9980` by default in this project)
-- **Auth**: none — local dev only. CORS is wide open.
+- **Off by default** (`Webserveractive`). When on:
+  - **Auth is required.** Every request sends `Authorization: Bearer <key>`, with the key in the environment
+    variable named by `Apikeyenv`. With no key set up, every request gets a `503`.
+  - **Other machines** are refused unless `Allowremote` is on. That's only a filter: a `clientAddress` request
+    header can overwrite the address the Web Server DAT reports, so the key is the real protection.
+  - **Browser origins** must be listed in `Alloworigins`, which is empty by default.
+  - **The TLS certificate password** comes from the environment variable named by `Webserverpasswordenv`.
+  - Never store a secret in a parameter: TD saves parameter values into the `.toe`/`.tox`.
 - **Key routes**: `GET/POST /macros`, `GET/PATCH/DELETE /macros/{path}`, `GET/PUT /macros/{path}/callback`,
   `POST /macros/{path}/trigger`, `POST /macros/{path}/move|duplicate`, `GET/DELETE /macros/{path}/log`,
   `GET /signals`, `POST /signals/{signal}/emit`.
