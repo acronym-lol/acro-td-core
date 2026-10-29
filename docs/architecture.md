@@ -57,7 +57,7 @@ Each mixin creates its own custom parameter page on the owning component:
 | Mixin | Page Name | Key Parameters |
 |-------|-----------|---------------|
 | `AcroToxExt` | **Component** | Repopath, Enableexternaltox, Externaltoxpath, Onsave, Reloadtox |
-| `AcroVersionExt` | **Version** | Version, Build, Versionurl, Token, Autoupdate, Devmode |
+| `AcroVersionExt` | **Version** | Version, Build, Versionurl, Tokenenv, Autoupdate, Devmode |
 
 Parameters are created programmatically in `_ensureComponentPage()` and `_ensureVersionPage()` methods. These methods are idempotent — they skip parameters that already exist, so re-initialization is safe.
 
@@ -106,8 +106,8 @@ The `AcroVersionManager` uses TouchDesigner's `StorageManager` for data that per
 Parameters use `enableExpr` to conditionally gray out based on other parameter values:
 
 ```python
-# Token field only enabled when Usetoken is on
-('Token', ..., 'me.par.Usetoken')
+# Token variable name only enabled when Usetoken is on
+('Tokenenv', ..., 'me.par.Usetoken')
 
 # Autoupdate only enabled when version checking is on
 ('Autoupdate', ..., 'me.par.Versioncheckenabled')

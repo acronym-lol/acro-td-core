@@ -47,7 +47,7 @@ These parameters are created on the **Version** custom parameter page by `AcroVe
 | `Lastupdate` | Last Updated | `str` | `''` | Yes | Always enabled | ISO 8601 timestamp of the last version update. |
 | `Versionurl` | Remote Version URL | `str` | `''` | No | Always enabled | HTTP URL to a remote version JSON file for update checks. |
 | `Usetoken` | Use Auth Token | `toggle` | `False` | No | Always enabled | Enable token-based authentication for remote requests. |
-| `Token` | Auth Token | `str` | `''` | No | `me.par.Usetoken` | GitHub personal access token for authenticated requests. |
+| `Tokenenv` | Token Env Variable | `str` | `''` | No | `me.par.Usetoken` | Name of the environment variable that holds the auth token. The token itself is never stored in a parameter. |
 | `Versioncheckenabled` | Check for Updates | `toggle` | `True` | No | Always enabled | Master toggle for remote version checking. |
 | `Autoupdate` | Auto Update | `menu` | `off` | No | `me.par.Versioncheckenabled` | Update behavior when a new version is available. |
 | `Reloadonupdate` | Reload Tox on Update | `toggle` | `True` | No | `me.par.Autoupdate != 'off'` | Reload tox from disk after a successful update. |
