@@ -448,7 +448,7 @@ When modifying code in this project, follow these rules to keep documentation in
 
 9. **Keep code examples accurate** — Code snippets in docs should match actual API signatures. If you change a method signature, update all examples that use it.
 
-10. **Version badge** — When bumping the project version, update the version badge in `README.md` and `docs/README.md`.
+10. **Version badge** — The badge in `README.md` and `docs/README.md` reads `version` from `AcroCore-VERSION.json` on main (a shields.io dynamic badge), so a version bump needs no badge edit. Don't swap it for a static badge.
 
 ## Version File Format
 
