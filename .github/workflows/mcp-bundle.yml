@@ -1,9 +1,11 @@
-# Fails when the committed MCP bundle (modules/acro-td-mcp/dist/index.js) doesn't match
-# its source. The bundle is committed so users only need Node, which means a src/ change
+# Fails when the committed MCP bundle (modules/acro-td-mcp/dist/index.js) or its
+# THIRD_PARTY_LICENSES.txt doesn't match its source. The bundle is committed so users only need Node, which means a src/ change
 # without a rebuild would ship a stale server.
 #
-# To fix a failure: run `npm install && npm run build` at the repo root and commit
-# modules/acro-td-mcp/dist/index.js.
+# To fix a failure: run `npm install && npm run build` at the repo root (or in
+# modules/acro-td-mcp) and commit modules/acro-td-mcp/dist/.
+#
+# Builds from the module's own lockfile, the same one the standalone acro-td-mcp repo uses.
 #
 # Read-only on purpose (no bot commit), so it never makes a subtree push non-fast-forward.
 name: MCP bundle
@@ -13,6 +15,7 @@ on:
     paths:
       - 'modules/acro-td-mcp/src/**'
       - 'modules/acro-td-mcp/dist/**'
+      - 'modules/acro-td-mcp/build.mjs'
       - 'modules/acro-td-mcp/package*.json'
       - 'package*.json'
       - '.github/workflows/mcp-bundle.yml'
@@ -20,6 +23,7 @@ on:
     paths:
       - 'modules/acro-td-mcp/src/**'
       - 'modules/acro-td-mcp/dist/**'
+      - 'modules/acro-td-mcp/build.mjs'
       - 'modules/acro-td-mcp/package*.json'
       - 'package*.json'
       - '.github/workflows/mcp-bundle.yml'
@@ -37,12 +41,15 @@ jobs:
         with:
           node-version: 22
           cache: npm
+          cache-dependency-path: modules/acro-td-mcp/package-lock.json
       - run: npm ci
+        working-directory: modules/acro-td-mcp
       - run: npm run build
+        working-directory: modules/acro-td-mcp
       - name: Bundle matches source
         run: |
           if ! git diff --quiet -- modules/acro-td-mcp/dist; then
-            echo "::error::modules/acro-td-mcp/dist/index.js is out of date. Run 'npm run build' at the repo root and commit it."
+            echo "::error::modules/acro-td-mcp/dist/ is out of date. Run 'npm run build' at the repo root and commit it."
             git diff --stat -- modules/acro-td-mcp/dist
             exit 1
           fi

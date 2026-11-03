@@ -1,20 +1,10 @@
 {
   "name": "acro-td-core",
-  "version": "0.1.0",
   "private": true,
-  "description": "MCP server for Acro TD Core AcroMCP API",
-  "type": "module",
+  "description": "Repo scripts for acro-td-core. The MCP server and its dependencies live in modules/acro-td-mcp.",
   "scripts": {
+    "postinstall": "npm --prefix modules/acro-td-mcp install",
     "build": "npm --prefix modules/acro-td-mcp run build",
     "build:watch": "npm --prefix modules/acro-td-mcp run build:watch"
-  },
-  "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.0",
-    "node-html-parser": "^7.0.2",
-    "zod": "^3.24.0"
-  },
-  "devDependencies": {
-    "esbuild": "^0.27.3",
-    "typescript": "^5.7.0"
   }
 }

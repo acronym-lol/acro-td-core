@@ -60,10 +60,16 @@ Claude Code  →  MCP Server (modules/acro-td-mcp/dist/index.js)  →  AcroMCP H
 ### MCP Server Development
 
 The bundle (`modules/acro-td-mcp/dist/index.js`) is **committed**, so users need only Node. After editing
-`modules/acro-td-mcp/src/`, rebuild and commit it. The `MCP bundle` CI workflow fails if it's stale.
+`modules/acro-td-mcp/src/`, rebuild and commit `dist/`. The `MCP bundle` CI workflow fails if it's stale.
+The build (`modules/acro-td-mcp/build.mjs`) also writes `dist/THIRD_PARTY_LICENSES.txt`, the licenses of the
+packages esbuild bundled, so commit that too after a dependency change.
+
+The server's dependencies and lockfile live in `modules/acro-td-mcp/` only (the root `package.json` just
+delegates), so this repo and the standalone acro-td-mcp repo build from the same lock. Add or update
+dependencies from inside the module folder.
 
 ```bash
-npm install      # once
+npm install      # once; installs the module's dependencies into modules/acro-td-mcp/node_modules
 npm run build    # runs the module's own build script
 ```
 
@@ -492,6 +498,7 @@ acro-td-core/
 │   │   ├── src/index.ts                  # MCP tool registrations
 │   │   ├── src/client.ts                 # Typed HTTP client for AcroMCP
 │   │   ├── dist/index.js                 # Built bundle (esbuild), committed; rebuild after src/ changes
+│   │   ├── dist/THIRD_PARTY_LICENSES.txt # Licenses of the bundled packages, written by build.mjs
 │   │   ├── scripts/AcroMCP.py            # TD-side HTTP API bridge
 │   │   └── reference/                    # TD reference docs (served via td_guide)
 │   ├── acro-td-macros/                   # AcroMacros framework

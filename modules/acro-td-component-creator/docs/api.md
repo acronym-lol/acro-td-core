@@ -69,7 +69,7 @@ The dialog presents the following parameters for configuring the new component:
 | `Examples` | `toggle` | `False` | Include example code in generated templates (properties, `Start()` method, callbacks). |
 | `Mixins` | `menu` | `none` | Tox/Version mixin to include in the generated extension. Options: `none` (no mixin), `toxext` (AcroToxExt for tox management only), `versionext` (AcroVersionExt for version tracking + tox management). |
 
-When a mixin is selected, the generated extension will inherit from the appropriate class and call its `__init__`. Selecting `versionext` always includes tox management since `AcroVersionExt` inherits from `AcroToxExt`. See [Tox Management](tox-management) and [Version Tracking](version-tracking) for details on what each mixin provides.
+When a mixin is selected, the generated extension will inherit from the appropriate class and call its `__init__`. Selecting `versionext` always includes tox management since `AcroVersionExt` inherits from `AcroToxExt`. See [Tox Management](https://acronym-lol.github.io/acro-td-version-manager/#/tox-management) and [Version Tracking](https://acronym-lol.github.io/acro-td-version-manager/#/version-tracking) for details on what each mixin provides.
 
 ### Connection Types
 
