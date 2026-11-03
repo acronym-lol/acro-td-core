@@ -20,33 +20,8 @@ for module_setup in "$SCRIPT_DIR"/modules/*/setup.sh; do
     fi
 done
 
-echo "Creating TD pref.txt file"
-
-# Construct the file path for macOS
-FILE_PATH="$HOME/Library/Application Support/Derivative/TouchDesigner099/pref.txt"
-
-# Create the content with the VS Code path for macOS
-CONTENT=$(cat << EOF
-general.pythonpackages64	/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages
-general.stopplayingwhenminimized	0
-dats.texteditor	/Applications/Visual Studio Code.app
-general.playbarshortcuts	0
-general.startupfilemode	1
-chops.graphdisplay2	6
-network.zoomdelay	0.19999999
-network.zoomboost	1.0000002
-EOF
-)
-
-# Ensure the parent directory exists
-mkdir -p "$(dirname "$FILE_PATH")"
-
-# Write the content to the file with correct line endings
-echo -e "$CONTENT" > "$FILE_PATH"
-
-# make sure the file has the correct permissions
-chmod 777 "$FILE_PATH"
-echo "TD pref.txt file created at $FILE_PATH"
+# Python packages (requirements.txt) are installed by TouchDesigner's tdPyEnvManager into the
+# project's own venv the first time the .toe is opened (see TDPyEnvManagerContext.yaml)
 
 # The MCP server ships prebuilt (modules/acro-td-mcp/dist/index.js); it only needs Node
 if ! command -v node >/dev/null 2>&1; then

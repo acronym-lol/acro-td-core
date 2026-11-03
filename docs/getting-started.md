@@ -54,6 +54,8 @@ When the project loads for the first time, the extensions automatically:
 3. **Print the startup banner** to the textport.
 4. **Refresh `alpacka.yml`** — AcroCore writes the launcher's project metadata file alongside the `.toe` on every save.
 
+The first open also sets up the project's Python packages. TouchDesigner's tdPyEnvManager reads `TDPyEnvManagerContext.yaml`, creates a virtual environment in `acro-core/` next to the `.toe` and installs `requirements.txt` into it, using TouchDesigner's own Python. The first open takes a little longer while that runs, and no separate Python install is needed. The folder is gitignored.
+
 ## Project Structure
 
 ```
