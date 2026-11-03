@@ -62,8 +62,12 @@ Claude Code  →  MCP Server (modules/acro-td-mcp/dist/index.js)  →  AcroMCP H
 The bundle (`modules/acro-td-mcp/dist/index.js`) is **committed**, so users need only Node. After editing
 `modules/acro-td-mcp/src/`, rebuild and commit it. The `MCP bundle` CI workflow fails if it's stale.
 
+The server's dependencies and lockfile live in `modules/acro-td-mcp/` only (the root `package.json` just
+delegates), so this repo and the standalone acro-td-mcp repo build from the same lock. Add or update
+dependencies from inside the module folder.
+
 ```bash
-npm install      # once
+npm install      # once; installs the module's dependencies into modules/acro-td-mcp/node_modules
 npm run build    # runs the module's own build script
 ```
 
