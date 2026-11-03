@@ -10,10 +10,11 @@ folders:
 # Declarative file copies. Paths are relative to this template.yml.
 files:
   # New-project gitignore — separate from AcroCore's own root .gitignore so
-  # new projects don't inherit AcroCore-internal patterns (Miniconda3, td-dp).
+  # new projects don't inherit AcroCore-internal patterns (AcroCore.[0-9]*.toe, acro-core/).
   - src: assets/.gitignore.template
     dst: .gitignore
     overwrite: true
+    substitute: true
 
   # Starter CLAUDE.md for AI agents working in the new project.
   - src: assets/CLAUDE.md.template
