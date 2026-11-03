@@ -114,6 +114,6 @@ Each module has a corresponding git remote configured in this repo's `.git/confi
 ## Next Steps
 
 - Read the [Architecture](architecture) page to understand how the modules fit together.
-- Learn about [Tox Management](tox-management) and [Version Tracking](version-tracking) — the foundation every module uses.
-- Set up [Version Checking](version-checking) for remote update detection.
-- Explore the per-module guides: [Component Creator](component-creator), [Hotkey Manager](hotkey-manager), [Theme Manager](theme-manager), [Macros](macros), [Widgets](widgets), and [AcroMCP](tdmcp).
+- Learn about [Tox Management](https://acronym-lol.github.io/acro-td-version-manager/#/tox-management) and [Version Tracking](https://acronym-lol.github.io/acro-td-version-manager/#/version-tracking) — the foundation every module uses.
+- Set up [Version Checking](https://acronym-lol.github.io/acro-td-version-manager/#/version-checking) for remote update detection.
+- Explore the per-module guides: [Component Creator](https://acronym-lol.github.io/acro-td-component-creator/), [Hotkey Manager](https://acronym-lol.github.io/acro-td-hotkey-manager/), [Theme Manager](https://acronym-lol.github.io/acro-td-theme-manager/), [Macros](https://acronym-lol.github.io/acro-td-macros/), [Widgets](https://acronym-lol.github.io/acro-td-widgets/), and [AcroMCP](https://acronym-lol.github.io/acro-td-mcp/).
