@@ -1,6 +1,6 @@
 # Acro TD Core
 
-![Version](https://img.shields.io/badge/version-1.10.12-blue) [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://acronym-lol.github.io/acro-td-core/)
+![Version](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/acronym-lol/acro-td-core/main/AcroCore-VERSION.json&query=%24.version&label=version&color=blue) [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://acronym-lol.github.io/acro-td-core/)
 
 TouchDesigner project template with automated version management, external tox handling, and MCP integration for AI-assisted development.
 

@@ -4,7 +4,7 @@ last_reviewed: 2026-08-27
 
 # Acro TD Core
 
-![Version](https://img.shields.io/badge/version-1.10.12-blue)
+![Version](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/acronym-lol/acro-td-core/main/AcroCore-VERSION.json&query=%24.version&label=version&color=blue)
 
 A TouchDesigner project template with automated version management, external tox file handling, and component scaffolding.
 
