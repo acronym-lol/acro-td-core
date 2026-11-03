@@ -1,5 +1,5 @@
-# Fails when the committed MCP bundle (modules/acro-td-mcp/dist/index.js) doesn't match
-# its source. The bundle is committed so users only need Node, which means a src/ change
+# Fails when the committed MCP bundle (modules/acro-td-mcp/dist/index.js) or its
+# THIRD_PARTY_LICENSES.txt doesn't match its source. The bundle is committed so users only need Node, which means a src/ change
 # without a rebuild would ship a stale server.
 #
 # To fix a failure: run `npm install && npm run build` at the repo root (or in
@@ -15,6 +15,7 @@ on:
     paths:
       - 'modules/acro-td-mcp/src/**'
       - 'modules/acro-td-mcp/dist/**'
+      - 'modules/acro-td-mcp/build.mjs'
       - 'modules/acro-td-mcp/package*.json'
       - 'package*.json'
       - '.github/workflows/mcp-bundle.yml'
@@ -22,6 +23,7 @@ on:
     paths:
       - 'modules/acro-td-mcp/src/**'
       - 'modules/acro-td-mcp/dist/**'
+      - 'modules/acro-td-mcp/build.mjs'
       - 'modules/acro-td-mcp/package*.json'
       - 'package*.json'
       - '.github/workflows/mcp-bundle.yml'
