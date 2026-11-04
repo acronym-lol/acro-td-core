@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.11.1] - 2026-11-04
+- New projects' .gitignore ignores .env files and alpacka.local.yml again. The template had been replacing ALPACKA's baseline file without them. Projects created earlier need the lines added by hand
+
 ## [1.11.0] - 2026-11-03
 - AcroMCP only answers local requests that carry the per-session token from the instance registry. The MCP server sends it automatically (AcroMCP 1.1.0)
 - The Macros REST API requires an API key from the variable named in Apikeyenv, and adds Allowremote and Alloworigins (AcroMacros 2.5.0)
