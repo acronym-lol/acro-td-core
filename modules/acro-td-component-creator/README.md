@@ -38,3 +38,7 @@ This module is typically installed as a git subtree in the acro-td-core template
 ```bash
 git subtree add --prefix=modules/acro-td-component-creator https://github.com/acronym-lol/acro-td-component-creator.git main --squash
 ```
+
+## Contributing
+
+Issues are welcome here. Pull requests go to [acro-td-core](https://github.com/acronym-lol/acro-td-core) against its `dev` branch; see [CONTRIBUTING.md](CONTRIBUTING.md).

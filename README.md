@@ -46,3 +46,7 @@ Modules:
 ## Documentation
 
 Full documentation available at the [docs site](https://acronym-lol.github.io/acro-td-core/).
+
+## Contributing
+
+Branch off `dev` and open pull requests against `dev`, including for module code. See [CONTRIBUTING.md](CONTRIBUTING.md), and [SECURITY.md](SECURITY.md) for reporting a vulnerability.

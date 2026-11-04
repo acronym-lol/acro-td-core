@@ -23,6 +23,8 @@ Push all git subtrees to their remote `main` branches, or push a specific subtre
 
 ## Instructions
 
+0. **Check the branch first.** Run `git fetch origin` and confirm the checked-out branch is `main` and matches `origin/main`. If not, stop and tell the user. `git subtree push` splits the checked-out branch, so pushing from `dev` would publish unreleased changes to the module repos.
+
 1. **If argument provided ($ARGUMENTS)** — push only that subtree:
    ```bash
    git subtree push --prefix=modules/$ARGUMENTS $ARGUMENTS main
