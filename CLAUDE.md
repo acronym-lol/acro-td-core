@@ -419,7 +419,8 @@ modules/<module>/docs/         <- Per-module sites (same files as above)
 
 ### Sidebars are generated
 
-`_sidebar.md` in every site is rebuilt by the theme's generator, and the `.github/workflows/acro-docs-sidebar.yml` workflow regenerates all eight on push. The existing `_sidebar.md` is the author's order: each run rebuilds it from itself.
+`_sidebar.md` in every site is rebuilt by the theme's generator, and the `.github/workflows/acro-docs-sidebar.yml` workflow regenerates all eight on push to any branch except `main`
+(which gets them through the release pull request from `dev`). The existing `_sidebar.md` is the author's order: each run rebuilds it from itself.
 
 - **Order**: move lines in `_sidebar.md`; the next run keeps it. New pages are added after the listed ones, and links to deleted pages are dropped. Don't add `sidebar_position` just to set the order.
 - **Section labels**: top-level `- **Label**` lines stay where you put them (e.g. **Foundations**, **Workflows** in the version manager).
@@ -455,6 +456,17 @@ When modifying code in this project, follow these rules to keep documentation in
 9. **Keep code examples accurate** — Code snippets in docs should match actual API signatures. If you change a method signature, update all examples that use it.
 
 10. **Version badge** — The badge in `README.md` and `docs/README.md` reads `version` from `AcroCore-VERSION.json` on main (a shields.io dynamic badge), so a version bump needs no badge edit. Don't swap it for a static badge.
+
+## Branches and Releases
+
+- **`dev`** is the working branch. Team members push to it directly. Outside contributors branch off it and open
+  pull requests against it ([CONTRIBUTING.md](CONTRIBUTING.md)).
+- **`main`** only changes through a pull request, normally the release PR from `dev`, merged with a merge commit
+  (never squash, or `dev` and `main` diverge). A ruleset enforces this and requires one approval. Org owners
+  can merge without the approval, but they can't push directly either.
+- **Releasing:** commit the version bump and changelog on `dev`, open a PR from `dev` to `main`, and merge it.
+  Then run `/push-subtrees` from an up-to-date `main`.
+- **Module repos** accept pushes only from org owners (the subtree pushes). Never merge a pull request there.
 
 ## Version File Format
 

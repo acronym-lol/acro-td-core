@@ -4,10 +4,15 @@
 # The module folders are git subtrees published to their own repos. Their sidebars are
 # generated HERE and carried out by `git subtree push`; never add this workflow to a
 # module repo, or its bot commit makes the next subtree push non-fast-forward.
+#
+# Skips main: main only changes through pull requests, so the bot couldn't push there.
+# Sidebars are regenerated on dev and reach main with the release pull request.
 name: Docs sidebar
 
 on:
   push:
+    branches-ignore:
+      - main
     paths:
       - 'docs/**'
       - 'modules/*/docs/**'
