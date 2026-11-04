@@ -11,6 +11,8 @@ folders:
 files:
   # New-project gitignore — separate from AcroCore's own root .gitignore so
   # new projects don't inherit AcroCore-internal patterns (AcroCore.[0-9]*.toe, acro-core/).
+  # It replaces ALPACKA's baseline .gitignore, so it must keep the baseline's
+  # secret-file lines (.env*, alpacka.local.yml).
   - src: assets/.gitignore.template
     dst: .gitignore
     overwrite: true

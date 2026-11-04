@@ -15,6 +15,12 @@ __pycache__/
 # Logs
 *.log
 
+# Local secrets and per-machine settings (ALPACKA's own baseline ignores these too)
+.env
+.env.*
+!.env.example
+alpacka.local.yml
+
 # Editors and OS
 .idea/
 .DS_Store
