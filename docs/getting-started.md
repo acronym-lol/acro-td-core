@@ -1,12 +1,12 @@
 ---
-last_reviewed: 2026-08-27
+last_reviewed: 2026-11-10
 ---
 
 # Getting Started
 
 ## Prerequisites
 
-- **TouchDesigner** 2025+ (tested with build 2025.32280)
+- **TouchDesigner** 2025+ (tested with build 2025.32820)
 - **Git** (for version checking and subtree management)
 - **Python 3** (bundled with TouchDesigner)
 - **Node.js** on your `PATH`, to run the MCP server for Claude Code. It ships prebuilt, so there's nothing to install or build.
@@ -52,7 +52,7 @@ When the project loads for the first time, the extensions automatically:
 1. **Initialize version tracking** — Each component creates its `*-version.json` if missing.
 2. **Tag themselves** — Components inheriting from `AcroVersionExt` get the `tox_managed` and `version_tracking` tags so the manager can find them.
 3. **Print the startup banner** to the textport.
-4. **Refresh `alpacka.yml`** — AcroCore writes the launcher's project metadata file alongside the `.toe` on every save.
+4. **Refresh `alpacka.yml`** — on every save, AcroCore updates this project metadata file for [ALPACKA](https://github.com/acronym-lol/acro-alpacka), next to the `.toe`.
 
 The first open also sets up the project's Python packages. TouchDesigner's tdPyEnvManager reads `TDPyEnvManagerContext.yaml`, creates a virtual environment in `acro-core/` next to the `.toe` and installs `requirements.txt` into it, using TouchDesigner's own Python. The first open takes a little longer while that runs, and no separate Python install is needed. The folder is gitignored.
 
@@ -81,9 +81,15 @@ Each module under `modules/` carries its own version file (`<ClassName>-VERSION.
 
 ## Using as a Template
 
-To start a new project based on this template, use the launcher (the `alpacka` workflow). The launcher reads `template.yml` from this repo and creates a new project with the right folder structure, `.gitignore`, `.mcp.json`, `CLAUDE.md`, and Claude skills already in place. AcroCore itself no longer bootstraps these — the launcher does.
+New projects are created with [ALPACKA](https://github.com/acronym-lol/acro-alpacka), a launcher for TouchDesigner projects:
 
-If you're not using the launcher, you can still:
+1. Install ALPACKA from its [latest release](https://github.com/acronym-lol/acro-alpacka/releases/latest).
+2. Clone this repo and run its setup script, as in [Installation](#installation) above. The script sets `ACRO_TD_CORE`, which ALPACKA uses to find this template (see ALPACKA's [Templates](https://acronym-lol.github.io/acro-alpacka/#/templates) page).
+3. In ALPACKA, create a project from the `acro-td-core` template.
+
+The new project gets the folders, `.gitignore`, `.mcp.json`, `CLAUDE.md` and Claude skills that this repo's `template.yml` lists. AcroCore itself doesn't bootstrap these; ALPACKA does.
+
+Without ALPACKA, you can still:
 
 1. Copy this directory to a new location.
 2. Save the `.toe` to its new home with **File > Save As**.
