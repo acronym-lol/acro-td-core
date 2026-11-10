@@ -464,8 +464,11 @@ When modifying code in this project, follow these rules to keep documentation in
 - **`main`** only changes through a pull request, normally the release PR from `dev`, merged with a merge commit
   (never squash, or `dev` and `main` diverge). A ruleset enforces this and requires one approval. Org owners
   can merge without the approval, but they can't push directly either.
-- **Releasing:** commit the version bump and changelog on `dev`, open a PR from `dev` to `main`, and merge it.
-  Then run `/push-subtrees` from an up-to-date `main`.
+- **Releasing:** commit the version bump and changelog on `dev`, open a PR from `dev` to `main`, and merge it. Then:
+  1. If the AcroCore version changed, tag the merge commit `v<version>` (annotated) and create a GitHub Release
+     from its changelog entry (`gh release create v<version> --verify-tag --notes-file <file>`).
+  2. Fast-forward `dev` to the merge commit: `git push origin origin/main:dev`.
+  3. Run `/push-subtrees` from an up-to-date `main`.
 - **Module repos** accept pushes only from org owners (the subtree pushes). Never merge a pull request there.
 
 ## Version File Format
