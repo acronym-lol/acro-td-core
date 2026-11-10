@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/acronym-lol/acro-td-core/security/advisories/new
+    about: Report it privately instead of opening a public issue.
+  - name: Documentation
+    url: https://acronym-lol.github.io/acro-td-core/
+    about: Setup, architecture and the module guides.

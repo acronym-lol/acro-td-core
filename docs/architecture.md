@@ -88,7 +88,7 @@ The system hooks into TouchDesigner's project lifecycle:
 | **Project Start** | `AcroCore.onStart()` | Prints the startup banner, copies the playbar into the main menu, hides external links / GPU display, schedules a project-saved check. |
 | **Project Start** | `AcroVersionManager.onStart()` | Checks all components for updates (with configurable delay). |
 | **Project Start** | `AcroThemeManager.onStart()` | Clones into TUIK2 colors, optionally re-applies the active theme and runs the bundled UI fix-ups. |
-| **Project Save** | `AcroCore.onSave()` | Refreshes `alpacka.yml` (the launcher's project metadata file) with the current TD version. |
+| **Project Save** | `AcroCore.onSave()` | Refreshes `alpacka.yml` (the project metadata file for [ALPACKA](https://github.com/acronym-lol/acro-alpacka)) with the current TD version. |
 | **Project Save** | `AcroVersionManager.onSaveStart()` | Finds and saves dirty tox-managed components. |
 | **Project Exit** | `AcroCore.onExit()` | Forwards to AcroMCP's `onExit()` to deregister the MCP instance. |
 
