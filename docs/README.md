@@ -1,5 +1,5 @@
 ---
-last_reviewed: 2026-08-27
+last_reviewed: 2026-11-18
 ---
 
 # Acro TD Core
@@ -34,6 +34,7 @@ This template bundles seven modules as git subtrees and wires them together at p
    ./setup.ps1   # Windows
    ./setup.sh    # macOS / Linux
    ```
+   On macOS, run it without `sudo`. It also installs a login agent so that apps opened from Finder, such as TouchDesigner, still see the variables after a restart (see [Getting Started → macOS](getting-started#macos)).
 
 3. Open `AcroCore.toe` in TouchDesigner.
 
