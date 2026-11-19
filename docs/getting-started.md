@@ -1,5 +1,5 @@
 ---
-last_reviewed: 2026-11-10
+last_reviewed: 2026-11-18
 ---
 
 # Getting Started
@@ -36,6 +36,24 @@ Then run the parent setup script, which loops over each module's `setup.ps1` / `
 Each per-module setup script registers a per-module variable (`ACRO_TD_VERSION_MANAGER`, `ACRO_TD_COMPONENT_CREATOR`, `ACRO_TD_HOTKEY_MANAGER`, `ACRO_TD_MACROS`, `ACRO_TD_MCP`, `ACRO_TD_THEME_MANAGER`, `ACRO_TD_WIDGETS`) pointing at the absolute path of the module on disk. See [Configuration Reference → Per-Module Environment Variables](configuration#per-module-environment-variables) for the full list.
 
 Open the `.toe` file in TouchDesigner once the variables are set.
+
+### macOS
+
+Run `./setup.sh` as yourself, never with `sudo`. Under `sudo` the variables are set for the root user, where the apps you open never see them, so the script refuses to run as root.
+
+Apps opened from Finder or the Dock, such as TouchDesigner and [ALPACKA](https://github.com/acronym-lol/acro-alpacka), don't read `~/.zshenv`. They get their environment from launchd, and a variable set there with `launchctl setenv` is gone after a logout or restart. So on macOS the script also installs a login agent, `~/Library/LaunchAgents/lol.acronym.acro-td-core.env.plist`, which sets all eight variables again at every login.
+
+- macOS may show a "Background item added" notification. Keep the item allowed under **System Settings → General → Login Items & Extensions**, or apps lose the variables at the next restart.
+- Apps that were already open don't pick up new variables. Quit them with Cmd-Q and reopen them.
+- If you move the repo, run `./setup.sh` again. It rewrites the agent with the new paths.
+- If an earlier run with `sudo` left `~/.zshenv` owned by root, the script stops and prints the `chown` command that fixes it.
+
+To remove the agent:
+
+```bash
+launchctl bootout gui/$(id -u)/lol.acronym.acro-td-core.env
+rm ~/Library/LaunchAgents/lol.acronym.acro-td-core.env.plist
+```
 
 ### Claude Code and `.mcp.json`
 

@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.11.2] - 2026-11-18
+- On macOS, setup.sh installs a login agent, so apps opened from Finder or the Dock keep the setup variables after a restart. It's executable now and refuses to run with sudo
+
 ## [1.11.1] - 2026-11-04
 - New projects' .gitignore ignores .env files and alpacka.local.yml again. The template had been replacing ALPACKA's baseline file without them. Projects created earlier need the lines added by hand
 

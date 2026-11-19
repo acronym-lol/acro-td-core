@@ -1,5 +1,5 @@
 ---
-last_reviewed: 2026-08-27
+last_reviewed: 2026-11-18
 ---
 
 # Configuration Reference
@@ -182,7 +182,11 @@ Each module ships with a `setup.ps1` (Windows) and `setup.sh` (macOS / Linux) th
 | `ACRO_TD_WIDGETS` | `modules/acro-td-widgets/setup.{ps1,sh}` | The widgets module folder. |
 | `ACRO_TD_MCP` | `modules/acro-td-mcp/setup.{ps1,sh}` | The MCP module folder. |
 
-Run each setup script once per machine (or once per workspace if you check out modules into a custom location). On Windows the variables persist via `[System.Environment]::SetEnvironmentVariable(..., 'User')`; on macOS/Linux they go into the user's shell profile.
+Run the setup script in the repo root once per machine, and again after moving the repo; it runs every module's script. If you check out a module into a custom location, run that module's own script there. Where the variables are stored:
+
+- **Windows:** user environment variables, via `[System.Environment]::SetEnvironmentVariable(..., 'User')`.
+- **macOS:** `~/.zshenv`, which only terminal sessions read, plus `launchctl setenv`, which apps opened from Finder or the Dock see but which is lost at logout. The root `setup.sh` therefore also installs a login agent, `~/Library/LaunchAgents/lol.acronym.acro-td-core.env.plist`, that sets all eight variables again at every login. A module script run on its own doesn't update the agent. See [Getting Started → macOS](getting-started#macos).
+- **Linux:** `~/.zshenv`, which zsh reads.
 
 ### Use Cases
 
